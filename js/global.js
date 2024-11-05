@@ -1,7 +1,3 @@
-const dom = new Map();
-const allIdElements = document.querySelectorAll(`[id]`);
-for (const element of allIdElements) dom.set(element.id, element);
-
 const handleHamburgerClick = (event) => {
   const target = event.currentTarget || event.target;
   const navIsOpen = target.getAttribute("aria-expanded") === "true";
@@ -27,6 +23,29 @@ const adjustTabIndexOfDrawerItems = (navIsOpen) => {
   for (const element of allFocusableElements) element.setAttribute("tabindex", navIsOpen ? -1 : 0);
 };
 
+// Don't keep this. Just having a goof.
+const ultimateNonBreakingSpaceInsert = () => {
+  const allParagraphs = document.querySelectorAll("p");
+
+  for (const p of allParagraphs) {
+    const wordList = p.innerText.split(" ");
+
+    let pBuilder = "";
+
+    wordList.forEach((word, index) => {
+      pBuilder = pBuilder + `${index !== wordList.length - 1 ? " " : "&nbsp;"}` + word;
+    });
+
+    p.innerHTML = pBuilder;
+  }
+};
+
+const dom = new Map();
+const allIdElements = document.querySelectorAll(`[id]`);
+for (const element of allIdElements) dom.set(element.id, element);
+
 dom.get("hamburger").addEventListener("click", handleHamburgerClick);
 dom.get("close-navigation").addEventListener("click", handleCloseNavClick);
 dom.get("navigation-curtain").addEventListener("click", handleCloseNavClick);
+
+ultimateNonBreakingSpaceInsert();

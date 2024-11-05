@@ -17,6 +17,7 @@ body {
   overflow-x: hidden;
   color: var(--text-color);
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", system-ui, sans-serif;
+  font-size: 1.8rem;
 }
 
 img,
@@ -37,11 +38,28 @@ button {
   cursor: pointer;
 }
 
+h1,
+h1,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  text-align: center;
+}
+
 ul,
 ol,
 li {
   padding: 0;
   margin: 0;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  line-height: 1.15;
+  text-align: justify;
 }
 
 #site-container {
@@ -82,6 +100,10 @@ h1 {
 
 h2 {
   font-size: 2.3rem;
+}
+
+h3 {
+  font-size: 2.6rem;
 }
 
 #navigation-curtain {
@@ -212,4 +234,20 @@ h2 {
     background-color: var(--text-color);
     box-shadow: 2px 2px 0 #000;
   }
+}
+
+#main-grid {
+  display: grid;
+  grid-template-columns: 1fr 55%;
+  max-width: 160rem;
+  margin: 6rem auto 0 auto;
+  padding: 0.5rem;
+}
+
+.purpleCard {
+  margin-bottom: 1rem;
+  margin-left: auto;
+  padding: 0.5rem 2rem;
+  background-color: var(--background-color-alpha);
+  max-width: 80ch;
 }
