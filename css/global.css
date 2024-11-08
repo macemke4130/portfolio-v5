@@ -9,6 +9,7 @@ html {
   --background-color: #530417;
   --background-color-alpha: rgba(83, 4, 23, 0.9);
   font-size: 10px;
+  background: var(--background-color);
 }
 
 body {
@@ -17,7 +18,7 @@ body {
   overflow-x: hidden;
   color: var(--text-color);
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", system-ui, sans-serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 img,
@@ -85,8 +86,9 @@ p {
   padding: 2rem;
 }
 
-h1,
-h2 {
+#name,
+#job-title {
+  font-weight: bold;
   padding: 0.25rem 1rem;
   background-color: rgba(83, 4, 23, 0.9);
   width: -moz-fit-content;
@@ -94,16 +96,17 @@ h2 {
   margin: 0 auto;
 }
 
-h1 {
+#name {
   font-size: 3.5rem;
 }
 
-h2 {
+#job-title {
   font-size: 2.3rem;
 }
 
-h3 {
+h1 {
   font-size: 2.6rem;
+  margin-bottom: 1rem;
 }
 
 #navigation-curtain {
@@ -244,10 +247,52 @@ h3 {
   padding: 0.5rem;
 }
 
-.purpleCard {
+.purple-card {
   margin-bottom: 1rem;
   margin-left: auto;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 2rem 2rem 2rem;
   background-color: var(--background-color-alpha);
   max-width: 80ch;
+}
+
+.purple-card:only-child:has(> h1) {
+  padding-bottom: 0.5rem;
+}
+
+h1:only-child {
+  margin-bottom: 0;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem 1rem;
+
+  .skill {
+    display: grid;
+    place-items: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 0.4rem;
+    padding: 0.7rem;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid #000;
+    background-color: var(--text-color);
+    box-shadow: 2px 2px 0 #000;
+    width: 18rem;
+    height: 5.4rem;
+  }
+}
+
+@media (max-width: 767px) {
+  #main-grid {
+    display: block;
+
+    #empty {
+      display: none;
+    }
+  }
 }
