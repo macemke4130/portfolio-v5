@@ -12,6 +12,11 @@ html {
   background: var(--background-color);
 }
 
+::selection {
+  color: var(--background-color);
+  background-color: var(--text-color);
+}
+
 body {
   margin: 0;
   width: 100vw;
@@ -40,7 +45,7 @@ button {
 }
 
 h1,
-h1,
+h2,
 h3,
 h4,
 h5,
@@ -74,6 +79,8 @@ p {
 
 #site-background {
   object-fit: cover;
+  user-select: none;
+  pointer-events: none;
 }
 
 #site-background,
@@ -84,6 +91,7 @@ p {
 
 #site-content {
   padding: 2rem;
+  overflow: auto;
 }
 
 #name,
@@ -107,6 +115,10 @@ p {
 h1 {
   font-size: 2.6rem;
   margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2.3rem;
 }
 
 #navigation-curtain {
@@ -255,8 +267,12 @@ h1 {
   max-width: 80ch;
 }
 
-.purple-card:only-child:has(> h1) {
+.purple-card:has(> h1:only-child) {
   padding-bottom: 0.5rem;
+}
+
+.purple-card:last-child {
+  margin-bottom: 25rem;
 }
 
 h1:only-child {
@@ -295,4 +311,33 @@ h1:only-child {
       display: none;
     }
   }
+}
+
+.employer {
+  margin-bottom: 0.7rem;
+}
+
+.job-title {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.employment-dates {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.job-description {
+}
+
+hr {
+  width: 80%;
+  margin: 2.3rem auto;
+  border: none;
+  opacity: 0.666;
+  border-top: 1px solid var(--text-color);
+}
+
+#experience span {
+  white-space: nowrap;
 }

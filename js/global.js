@@ -10,7 +10,7 @@ addElementsToDomMap();
 // Limits the frequency of function calls to 4 times
 // per second rather than every mutation event.
 let domThrottle = null;
-const runDomMapThrottle = () => {
+const domMapThrottle = () => {
   if (domThrottle !== null) return;
 
   domThrottle = setTimeout(() => {
@@ -78,7 +78,8 @@ const renderMainContent = async (href) => {
   const shadowMain = shadowRoot.querySelector("#main-grid");
   dom.get("main-grid").innerHTML = shadowMain.innerHTML;
 
-  handleCloseNavClick();
+  const navOpen = dom.get("hamburger").getAttribute("aria-expanded") === "true";
+  if (navOpen) handleCloseNavClick();
 };
 
 const assignAnchorListeners = () => {
@@ -92,7 +93,7 @@ const setListeners = () => {
   dom.get("navigation-curtain").addEventListener("click", handleCloseNavClick);
 };
 
-const observer = new MutationObserver(runDomMapThrottle);
+const observer = new MutationObserver(domMapThrottle);
 observer.observe(document.body, { attributes: false, childList: true, subtree: true });
 
 importComponents();
