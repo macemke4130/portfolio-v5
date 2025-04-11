@@ -1,3 +1,7 @@
+resetDomMap();
+
+let experienceTimer = 0;
+
 const msInSecond = 1000;
 const msInMinute = 60000;
 const msInHour = 3.6e6;
@@ -90,11 +94,26 @@ const initExperienceSpan = () => {
     "experience"
   ).innerHTML = `<span id="years">8 years</span>, <span id="months">5 months</span>, <span id="days">18 days</span>, <span id="hours">20 hours</span>, <span id="minutes">43 minutes</span> and <span id="seconds">57.666 seconds</span>`;
 
+  // Not using dom.get("")
+  const experienceElement = document.querySelector("#experience");
+  experienceElement.innerHTML = `<span id="years">8 years</span>, <span id="months">5 months</span>, <span id="days">18 days</span>, <span id="hours">20 hours</span>, <span id="minutes">43 minutes</span> and <span id="seconds">57.666 seconds</span>`;
+
   const newSpans = dom.get("experience").querySelectorAll("span[id]");
   newSpans.forEach((span) => {
     dom.set(span.id, span);
   });
 };
 
+const startCountup = () => {
+  experienceTimer = setInterval(() => {
+    updateExperience();
+  }, 250);
+  cleanupList.push({ type: "setInterval", variable: experienceTimer });
+};
+
 initExperienceSpan();
-setInterval(() => updateExperience(), 250);
+startCountup();
+
+export const testing = () => {
+  console.log("just do this");
+};

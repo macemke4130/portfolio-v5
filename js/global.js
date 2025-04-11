@@ -1,11 +1,65 @@
-const dom = new Map();
+// {
+// type: "setInterval" | "setTimeout" | "listenerType",
+// variable: any
+// }
+const cleanupList = [];
 
-const addElementsToDomMap = (parentElement = document.body) => {
-  const allIdElements = parentElement.querySelectorAll(`[id]`);
-  for (const element of allIdElements) dom.set(element.id, element);
+const cleanup = (index) => {
+  const job = cleanupList[index];
+  const cleanupType = job.type;
+  const variable = job.variable;
+
+  switch (cleanupType) {
+    case "setInterval": {
+      clearInterval(variable);
+      break;
+    }
+
+    case "setTimeout": {
+      clearTimeout(variable);
+      break;
+    }
+
+    default: {
+      window.removeEventListener(cleanupType, variable);
+      break;
+    }
+  }
 };
 
-addElementsToDomMap();
+const clearCleanupList = () => {
+  for (let index = 0; index < cleanupList.length; index++) {
+    cleanup(index);
+  }
+  cleanupList.length = 0;
+};
+
+const anchorInturupt = (event) => {
+  event.preventDefault();
+  const target = event.target;
+
+  clearCleanupList();
+  console.log(cleanupList);
+
+  renderMainContent(target.href);
+};
+
+const assignAnchorListeners = () => {
+  const allAnchorElements = document.querySelectorAll(`a:not(a[target="_blank"])`);
+  for (const element of allAnchorElements) element.addEventListener("click", anchorInturupt);
+};
+
+const dom = new Map();
+
+const resetDomMap = () => {
+  dom.clear();
+
+  const allIdElements = document.body.querySelectorAll(`[id]`);
+  for (const element of allIdElements) dom.set(element.id, element);
+  assignAnchorListeners();
+};
+
+resetDomMap();
 
 // Limits the frequency of function calls to 4 times
 // per second rather than every mutation event.
@@ -14,7 +68,7 @@ const domMapThrottle = () => {
   if (domThrottle !== null) return;
 
   domThrottle = setTimeout(() => {
-    addElementsToDomMap();
+    resetDomMap();
     assignAnchorListeners();
 
     domThrottle = null;
@@ -55,17 +109,10 @@ const importComponents = async () => {
   dom.get(siteHeaderId).innerHTML = requestHeaderText;
 
   // Add newly imported components to dom map.
-  addElementsToDomMap(dom.get(siteHeaderId));
+  resetDomMap();
 
   // Once added to dom map, set listeners.
   setListeners();
-};
-
-const anchorInturupt = (event) => {
-  event.preventDefault();
-  const target = event.target;
-
-  renderMainContent(target.href);
 };
 
 const renderMainContent = async (href) => {
@@ -78,13 +125,31 @@ const renderMainContent = async (href) => {
   const shadowMain = shadowRoot.querySelector("#main-grid");
   dom.get("main-grid").innerHTML = shadowMain.innerHTML;
 
+  checkForScripts(shadowMain);
+
   const navOpen = dom.get("hamburger").getAttribute("aria-expanded") === "true";
   if (navOpen) handleCloseNavClick();
 };
 
-const assignAnchorListeners = () => {
-  const allAnchorElements = document.querySelectorAll(`a:not(a[target="_blank"])`);
-  for (const element of allAnchorElements) element.addEventListener("click", anchorInturupt);
+const checkForScripts = (shadowMain) => {
+  const allScriptTags = shadowMain.querySelectorAll("script");
+  if (!allScriptTags.length) return;
+
+  const domScriptTags = dom.get("main-grid").querySelectorAll("script");
+
+  (async () => {
+    try {
+      const importedScript = await import(domScriptTags[0].src);
+      importedScript.testing();
+      console.log("imported");
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+
+  for (const script of allScriptTags) {
+    const source = script.src;
+  }
 };
 
 const setListeners = () => {
@@ -93,7 +158,7 @@ const setListeners = () => {
   dom.get("navigation-curtain").addEventListener("click", handleCloseNavClick);
 };
 
-const observer = new MutationObserver(domMapThrottle);
-observer.observe(document.body, { attributes: false, childList: true, subtree: true });
+// const observer = new MutationObserver(domMapThrottle);
+// observer.observe(document.body, { attributes: false, childList: true, subtree: true });
 
 importComponents();
