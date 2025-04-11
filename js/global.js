@@ -1,3 +1,6 @@
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
+
 // {
 // type: "setInterval" | "setTimeout" | "listenerType",
 // variable: any
@@ -39,40 +42,13 @@ const anchorInturupt = (event) => {
   const target = event.target;
 
   clearCleanupList();
-  console.log(cleanupList);
 
   renderMainContent(target.href);
 };
 
 const assignAnchorListeners = () => {
-  const allAnchorElements = document.querySelectorAll(`a:not(a[target="_blank"])`);
+  const allAnchorElements = $$(`a:not(a[target="_blank"])`);
   for (const element of allAnchorElements) element.addEventListener("click", anchorInturupt);
-};
-
-const dom = new Map();
-
-const resetDomMap = () => {
-  dom.clear();
-
-  const allIdElements = document.body.querySelectorAll(`[id]`);
-  for (const element of allIdElements) dom.set(element.id, element);
-  assignAnchorListeners();
-};
-
-resetDomMap();
-
-// Limits the frequency of function calls to 4 times
-// per second rather than every mutation event.
-let domThrottle = null;
-const domMapThrottle = () => {
-  if (domThrottle !== null) return;
-
-  domThrottle = setTimeout(() => {
-    resetDomMap();
-    assignAnchorListeners();
-
-    domThrottle = null;
-  }, 250);
 };
 
 const handleHamburgerClick = (event) => {
@@ -81,8 +57,8 @@ const handleHamburgerClick = (event) => {
 
   target.setAttribute("aria-label", `${navIsOpen ? "Open" : "Close"} navigation`);
   target.setAttribute("aria-expanded", !navIsOpen);
-  dom.get("navigation-drawer").setAttribute("aria-hidden", navIsOpen);
-  dom.get("navigation-curtain").setAttribute("data-position", navIsOpen ? "up" : "down");
+  $("#navigation-drawer").setAttribute("aria-hidden", navIsOpen);
+  $("#navigation-curtain").setAttribute("data-position", navIsOpen ? "up" : "down");
 
   adjustTabIndexOfDrawerItems(navIsOpen);
 };
@@ -90,13 +66,13 @@ const handleHamburgerClick = (event) => {
 // OMG fun. Javascript is wild.
 const handleCloseNavClick = () => {
   const fakeEventObject = {
-    target: dom.get("hamburger"),
+    target: $("#hamburger"),
   };
   handleHamburgerClick(fakeEventObject);
 };
 
 const adjustTabIndexOfDrawerItems = (navIsOpen) => {
-  const allFocusableElements = dom.get("navigation-drawer").querySelectorAll(`a, button`);
+  const allFocusableElements = $("#navigation-drawer").querySelectorAll(`a, button`);
   for (const element of allFocusableElements) element.setAttribute("tabindex", navIsOpen ? -1 : 0);
 };
 
@@ -106,13 +82,10 @@ const importComponents = async () => {
   const requestHeaderText = await requestHeader.text();
 
   const siteHeaderId = "site-header";
-  dom.get(siteHeaderId).innerHTML = requestHeaderText;
+  $(`#${siteHeaderId}`).innerHTML = requestHeaderText;
 
-  // Add newly imported components to dom map.
-  resetDomMap();
-
-  // Once added to dom map, set listeners.
   setListeners();
+  assignAnchorListeners();
 };
 
 const renderMainContent = async (href) => {
@@ -123,11 +96,11 @@ const renderMainContent = async (href) => {
   shadowRoot.innerHTML = htmlText;
 
   const shadowMain = shadowRoot.querySelector("#main-grid");
-  dom.get("main-grid").innerHTML = shadowMain.innerHTML;
+  $("#main-grid").innerHTML = shadowMain.innerHTML;
 
   checkForScripts(shadowMain);
 
-  const navOpen = dom.get("hamburger").getAttribute("aria-expanded") === "true";
+  const navOpen = $("#hamburger").getAttribute("aria-expanded") === "true";
   if (navOpen) handleCloseNavClick();
 };
 
@@ -135,30 +108,22 @@ const checkForScripts = (shadowMain) => {
   const allScriptTags = shadowMain.querySelectorAll("script");
   if (!allScriptTags.length) return;
 
-  const domScriptTags = dom.get("main-grid").querySelectorAll("script");
+  const domScriptTags = $("#main-grid").querySelectorAll("script");
 
   (async () => {
     try {
       const importedScript = await import(domScriptTags[0].src);
-      importedScript.testing();
-      console.log("imported");
+      importedScript.runOnImport();
     } catch (error) {
       console.error(error);
     }
   })();
-
-  for (const script of allScriptTags) {
-    const source = script.src;
-  }
 };
 
 const setListeners = () => {
-  dom.get("hamburger").addEventListener("click", handleHamburgerClick);
-  dom.get("close-navigation").addEventListener("click", handleCloseNavClick);
-  dom.get("navigation-curtain").addEventListener("click", handleCloseNavClick);
+  $("#hamburger").addEventListener("click", handleHamburgerClick);
+  $("#close-navigation").addEventListener("click", handleCloseNavClick);
+  $("#navigation-curtain").addEventListener("click", handleCloseNavClick);
 };
-
-// const observer = new MutationObserver(domMapThrottle);
-// observer.observe(document.body, { attributes: false, childList: true, subtree: true });
 
 importComponents();

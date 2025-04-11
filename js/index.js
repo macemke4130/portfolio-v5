@@ -1,5 +1,3 @@
-resetDomMap();
-
 let experienceTimer = 0;
 
 const msInSecond = 1000;
@@ -22,6 +20,15 @@ const currentExperienceValues = {
   days: 0,
   minutes: 0,
   seconds: 0,
+};
+
+const resetCurrentExperienceValues = () => {
+  currentExperienceValues.years = 0;
+  currentExperienceValues.months = 0;
+  currentExperienceValues.days = 0;
+  currentExperienceValues.hours = 0;
+  currentExperienceValues.minutes = 0;
+  currentExperienceValues.seconds = 0;
 };
 
 const updateExperience = () => {
@@ -49,37 +56,32 @@ const updateExperience = () => {
 
   // Plenty of conditionals to prevent superfluous DOM updates.
   if (currentExperienceValues.years !== years) {
-    dom.get("years").innerText = `${years} years`;
+    $("#years").innerText = `${years} years`;
     currentExperienceValues.years = years;
   }
 
   if (currentExperienceValues.months !== months) {
-    dom.get("months").innerText = `${months} month${months !== 1 ? "s" : ""}`;
+    $("#months").innerText = `${months} month${months !== 1 ? "s" : ""}`;
     currentExperienceValues.months = months;
   }
 
   if (currentExperienceValues.days !== days) {
-    dom.get("days").innerText = `${days} day${days !== 1 ? "s" : ""}`;
-    currentExperienceValues.days = days;
-  }
-
-  if (currentExperienceValues.days !== days) {
-    dom.get("days").innerText = `${days} day${days !== 1 ? "s" : ""}`;
+    $("#days").innerText = `${days} day${days !== 1 ? "s" : ""}`;
     currentExperienceValues.days = days;
   }
 
   if (currentExperienceValues.hours !== hours) {
-    dom.get("hours").innerText = `${hours} hour${hours !== 1 ? "s" : ""}`;
+    $("#hours").innerText = `${hours} hour${hours !== 1 ? "s" : ""}`;
     currentExperienceValues.hours = hours;
   }
 
   if (currentExperienceValues.minutes !== minutes) {
-    dom.get("minutes").innerText = `${minutes} minute${minutes !== 1 ? "s" : ""}`;
+    $("#minutes").innerText = `${minutes} minute${minutes !== 1 ? "s" : ""}`;
     currentExperienceValues.minutes = minutes;
   }
 
   if (currentExperienceValues.seconds !== seconds) {
-    dom.get("seconds").innerText = `${seconds} second${seconds !== 1 ? "s" : ""}`;
+    $("#seconds").innerText = `${seconds} second${seconds !== 1 ? "s" : ""}`;
     currentExperienceValues.seconds = seconds;
   }
 };
@@ -90,18 +92,12 @@ const updateExperience = () => {
 // minimize the amount of jank when the first
 // updateExperience() fires.
 const initExperienceSpan = () => {
-  dom.get(
-    "experience"
+  $(
+    "#experience"
   ).innerHTML = `<span id="years">8 years</span>, <span id="months">5 months</span>, <span id="days">18 days</span>, <span id="hours">20 hours</span>, <span id="minutes">43 minutes</span> and <span id="seconds">57.666 seconds</span>`;
 
-  // Not using dom.get("")
-  const experienceElement = document.querySelector("#experience");
+  const experienceElement = $("#experience");
   experienceElement.innerHTML = `<span id="years">8 years</span>, <span id="months">5 months</span>, <span id="days">18 days</span>, <span id="hours">20 hours</span>, <span id="minutes">43 minutes</span> and <span id="seconds">57.666 seconds</span>`;
-
-  const newSpans = dom.get("experience").querySelectorAll("span[id]");
-  newSpans.forEach((span) => {
-    dom.set(span.id, span);
-  });
 };
 
 const startCountup = () => {
@@ -111,9 +107,10 @@ const startCountup = () => {
   cleanupList.push({ type: "setInterval", variable: experienceTimer });
 };
 
-initExperienceSpan();
-startCountup();
-
-export const testing = () => {
-  console.log("just do this");
+export const runOnImport = () => {
+  initExperienceSpan();
+  resetCurrentExperienceValues();
+  startCountup();
 };
+
+runOnImport();
