@@ -121,6 +121,14 @@ h2 {
   font-size: 2.3rem;
 }
 
+.sr-only {
+  position: absolute;
+  white-space: nowrap;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 #navigation-curtain {
   background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.45) 90%, transparent);
   width: 100%;
@@ -187,43 +195,41 @@ h2 {
   &[aria-hidden="false"] {
     transform: translateX(0%);
 
-    nav ul {
-      li:nth-child(even) {
+    nav {
+      a:nth-child(even) {
         transform: translateX(0%);
       }
 
-      li:nth-child(odd) {
+      a:nth-child(odd) {
         transform: translateX(0%);
       }
     }
   }
 
-  nav ul {
+  nav {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
     list-style: none;
 
-    li {
+    a {
       width: 90%;
 
       transition-property: transform;
       transition-duration: 400ms;
       transition-timing-function: ease;
 
-      a {
-        font-size: 1.8rem;
-        font-weight: 700;
-        text-align: center;
-        border-radius: 0.4rem;
-        padding: 0.7rem;
-        text-decoration: none;
-        color: #000;
-        border: 1px solid #000;
-        background-color: var(--text-color);
-        box-shadow: 2px 2px 0 #000;
-      }
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 0.4rem;
+      padding: 0.7rem;
+      text-decoration: none;
+      color: #000;
+      border: 1px solid #000;
+      background-color: var(--text-color);
+      box-shadow: 2px 2px 0 #000;
     }
 
     li:nth-child(even) {
