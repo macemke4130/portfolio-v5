@@ -2,10 +2,16 @@
   "name": "lucas-mace-portfolio",
   "version": "5.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
+    "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lucas Mace",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.8.0",
+    "express": "^5.1.0"
+  }
 }
