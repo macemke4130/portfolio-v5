@@ -335,6 +335,7 @@ p {
   margin-left: auto;
   padding: 0.5rem 2rem 2rem 2rem;
   background-color: var(--background-color-alpha);
+  width: 100%;
   max-width: 80ch;
 }
 
