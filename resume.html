@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01C8W76GX4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-01C8W76GX4");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Lucas Mace is a web developer with a focus on performance, accessibility and readability." />
-    <title>Lucas Mace | Full Stack Web Developer</title>
+    <title>Lucas Mace | Resume</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
     <link href="./css/global.css" rel="stylesheet" />
   </head>
@@ -14,67 +24,83 @@
       <div id="site-content">
         <header id="site-header"></header>
         <main id="main-grid">
-          <div id="empty"></div>
-          <div id="main-content">
-            <div id="bio" class="purple-card">
+          <div id="empty" aria-hidden="true"></div>
+          <div class="page-content">
+            <div class="purple-card">
               <h1>Résumé</h1>
             </div>
             <section aria-labelledby="experience-title" class="purple-card">
               <h2 id="experience-title">Experience</h2>
-              <div class="employer">Starkey Hearing Technologies</div>
-              <div class="job-title">Front End Web Developer</div>
-              <div class="employment-dates">September 2024 - Present / Eden Prairie, MN</div>
-              <p class="job-description">
-                Develop and maintain websites and components for professionals and consumers in domestic and international markets. Maintain responsive,
-                cross-browser and pixel perfect designs while prioritizing accessibility, user experience and performance.
-              </p>
+              <div role="group" aria-label="Employment details">
+                <h3>Starkey Hearing Technologies</h3>
+                <div class="job-title">Front End Web Developer</div>
+                <div class="employment-dates">September 2024 - Present / Eden Prairie, MN</div>
+                <p class="job-description">
+                  Develop and maintain websites and components for professionals and consumers in domestic and international markets. Maintain responsive,
+                  cross-browser and pixel perfect designs while prioritizing accessibility, user experience and performance.
+                </p>
+              </div>
               <hr />
-              <div class="employer">Erik's Bike, Board and Ski</div>
-              <div class="job-title">Front End Web Developer</div>
-              <div class="employment-dates">November 2021 - September 2024 / Minneapolis, MN</div>
-              <p class="job-description">
-                Develop and maintain responsive customer facing web applications and components using React / Next / Javascript, HTML, CSS and more. Work with
-                the marketing team to bring new web features to life. Design and implement new features and UX/UI interfaces. A B Testing of pages and
-                components. Test new and existing pages for performance and optimize for page speed. Focus on building for SEO, web accessibility and mobile
-                first performance.
-              </p>
+              <div role="group" aria-label="Employment details">
+                <h3>Erik's Bike, Board and Ski</h3>
+                <div class="job-title">Front End Web Developer</div>
+                <div class="employment-dates">November 2021 - September 2024 / Minneapolis, MN</div>
+                <p class="job-description">
+                  Develop and maintain responsive customer facing web applications and components using React / Next / Javascript, HTML, CSS and more. Work with
+                  the marketing team to bring new web features to life. Design and implement new features and UX/UI interfaces. A B Testing of pages and
+                  components. Test new and existing pages for performance and optimize for page speed. Focus on building for SEO, web accessibility and mobile
+                  first performance.
+                </p>
+              </div>
               <hr />
-              <div class="employer">The Rave / Eagles Club</div>
-              <div class="job-title">Website Administrator</div>
-              <div class="employment-dates">March 2010 - April 2012 / Milwaukee, WI</div>
-              <p class="job-description">
-                Develop and maintain customer facing web applications and components using Javascript, HTML and CSS. Develop back end CRUD applications for
-                front end management. Database management and optimization. Implement and optimize video content for the web. E-Commerce development. Work with
-                the marketing team to bring new web features to life. Print and animated graphic creation and manipulation using Adobe's Suite.
-              </p>
+              <div role="group" aria-label="Employment details">
+                <h3>The Rave / Eagles Club</h3>
+                <div class="job-title">Website Administrator</div>
+                <div class="employment-dates">March 2010 - April 2012 / Milwaukee, WI</div>
+                <p class="job-description">
+                  Develop and maintain customer facing web applications and components using Javascript, HTML and CSS. Develop back end CRUD applications for
+                  front end management. Database management and optimization. Implement and optimize video content for the web. E-Commerce development. Work
+                  with the marketing team to bring new web features to life. Print and animated graphic creation and manipulation using Adobe's Suite.
+                </p>
+              </div>
               <hr />
-              <div class="employer">Vision Production</div>
-              <div class="job-title">Web and Game Developer, Graphic Designer</div>
-              <div class="employment-dates">October 2005 - April 2009 / Pontiac, MI</div>
-              <p class="job-description">
-                Develop and maintain websites and web components using Javascript, HTML and CSS. Develop interactive, animated games, training modules and
-                websites using Adobe Flash and Actionscript. Develop, deploy and maintain recipient lists for Email newsletters.
-              </p>
+              <div role="group" aria-label="Employment details">
+                <h3>Vision Production</h3>
+                <div class="job-title">Web and Game Developer, Graphic Designer</div>
+                <div class="employment-dates">October 2005 - April 2009 / Pontiac, MI</div>
+                <p class="job-description">
+                  Develop and maintain websites and web components using Javascript, HTML and CSS. Develop interactive, animated games, training modules and
+                  websites using Adobe Flash and Actionscript. Develop, deploy and maintain recipient lists for Email newsletters.
+                </p>
+              </div>
             </section>
             <section aria-labelledby="education-title" class="purple-card">
               <h2 id="education-title">Education</h2>
-              <div class="job-title">Covalence Technical Trade School</div>
-              <div class="employer">Full Stack Web Development Graduate</div>
-              <div class="employment-dates">October 2020 - March 2021</div>
+              <div role="group" aria-label="Education details">
+                <div class="job-title">Covalence Technical Trade School</div>
+                <div class="employer">Full Stack Web Development Graduate</div>
+                <div class="employment-dates">October 2020 - March 2021</div>
+              </div>
               <hr />
-              <div class="job-title">Oakland Schools Technical Campus - SouthWest</div>
-              <div class="employer">Visual Imaging and Computer Programming Graduate</div>
-              <div class="employment-dates">2005 - 2006</div>
+              <div role="group" aria-label="Education details">
+                <div class="job-title">Oakland Schools Technical Campus - SouthWest</div>
+                <div class="employer">Visual Imaging and Computer Programming Graduate</div>
+                <div class="employment-dates">2005 - 2006</div>
+              </div>
             </section>
             <section aria-labelledby="referencestitle" class="purple-card">
               <h2 id="referencestitle">References</h2>
-              <div class="job-title">Brennan Kreiman</div>
-              <div class="employer">Product Manager at Stripe</div>
-              <div class="employment-dates"><a href="mailto: brennank@stripe.com">brennank@stripe.com</a></div>
+              <div role="group" aria-label="Reference details">
+                <div class="job-title">Brennan Kreiman</div>
+                <div class="employer">Product Manager at Stripe</div>
+                <div class="employment-dates"><a href="mailto: brennank@stripe.com">brennank@stripe.com</a></div>
+              </div>
               <hr />
-              <div class="job-title">Graeme Bloor</div>
-              <div class="employer">VP of Digital & Information Technologies at Erik's Bike Board and Ski</div>
-              <div class="employment-dates"><a href="mailto: gbloor@eriksbikeshop.com">gbloor@eriksbikeshop.com</a></div>
+              <div role="group" aria-label="Reference details">
+                <div class="job-title">Graeme Bloor</div>
+                <div class="employer">VP of Digital & Information Technologies at Erik's Bike Board and Ski</div>
+                <div class="employment-dates"><a href="mailto: gbloor@eriksbikeshop.com">gbloor@eriksbikeshop.com</a></div>
+              </div>
             </section>
           </div>
         </main>

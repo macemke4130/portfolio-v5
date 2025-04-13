@@ -94,7 +94,7 @@ const updateExperience = () => {
 const initExperienceSpan = () => {
   $(
     "#experience"
-  ).innerHTML = `<span id="years">8 years</span>, <span id="months">5 months</span>, <span id="days">18 days</span>, <span id="hours">20 hours</span>, <span id="minutes">43 minutes</span> and <span id="seconds">57.666 seconds</span>`;
+  ).innerHTML = `<span id="years">8 years</span>, <span id="months">10 months</span>, <span id="days">18 days</span>, <span id="hours">20 hours</span>, <span id="minutes">43 minutes</span> and <span id="seconds">57.666 seconds</span>`;
 
   const experienceElement = $("#experience");
   experienceElement.innerHTML = `<span id="years">8 years</span>, <span id="months">5 months</span>, <span id="days">18 days</span>, <span id="hours">20 hours</span>, <span id="minutes">43 minutes</span> and <span id="seconds">57.666 seconds</span>`;

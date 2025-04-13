@@ -1,10 +1,7 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
-// {
-// type: "setInterval" | "setTimeout" | "listenerType",
-// variable: any
-// }
+// { type: "setInterval" | "setTimeout" | "listenerType", variable: any }
 const cleanupList = [];
 
 const cleanup = (index) => {
@@ -44,10 +41,17 @@ const anchorInturupt = (event) => {
   clearCleanupList();
 
   renderMainContent(target.href);
+  updateLocationBar(target.href);
+
+  $("#site-content").scroll({
+    top: 0,
+    left: 0,
+    behavior: "instant",
+  });
 };
 
 const assignAnchorListeners = () => {
-  const allAnchorElements = $$(`a:not(a[target="_blank"])`);
+  const allAnchorElements = $$(`a:not(a[target="_blank"], [data-http])`);
   for (const element of allAnchorElements) element.addEventListener("click", anchorInturupt);
 };
 
@@ -57,7 +61,7 @@ const handleHamburgerClick = (event) => {
 
   target.setAttribute("aria-label", `${navIsOpen ? "Open" : "Close"} navigation`);
   target.setAttribute("aria-expanded", !navIsOpen);
-  $("#navigation-drawer").setAttribute("aria-hidden", navIsOpen);
+  $("#navigation-drawer").setAttribute("data-expanded", !navIsOpen);
   $("#navigation-curtain").setAttribute("data-position", navIsOpen ? "up" : "down");
 
   adjustTabIndexOfDrawerItems(navIsOpen);
@@ -88,6 +92,10 @@ const importComponents = async () => {
   assignAnchorListeners();
 };
 
+const updateLocationBar = (url) => {
+  history.pushState({ page: url }, "", url);
+};
+
 const renderMainContent = async (href) => {
   const requestHTMLDocument = await fetch(href);
   const htmlText = await requestHTMLDocument.text();
@@ -97,11 +105,13 @@ const renderMainContent = async (href) => {
 
   const shadowMain = shadowRoot.querySelector("#main-grid");
   $("#main-grid").innerHTML = shadowMain.innerHTML;
+  $("title").textContent = shadowRoot.querySelector("title").textContent;
 
   checkForScripts(shadowMain);
 
   const navOpen = $("#hamburger").getAttribute("aria-expanded") === "true";
   if (navOpen) handleCloseNavClick();
+  assignAnchorListeners();
 };
 
 const checkForScripts = (shadowMain) => {
@@ -125,5 +135,12 @@ const setListeners = () => {
   $("#close-navigation").addEventListener("click", handleCloseNavClick);
   $("#navigation-curtain").addEventListener("click", handleCloseNavClick);
 };
+
+const handlePopstate = (event) => {
+  const previousURL = new URL(event.state.page);
+  anchorInturupt({ target: { href: previousURL.pathname }, preventDefault: () => null });
+};
+
+window.addEventListener("popstate", handlePopstate);
 
 importComponents();

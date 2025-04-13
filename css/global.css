@@ -26,10 +26,17 @@ body {
   font-size: 2rem;
 }
 
-img,
-button,
-a:not(p a) {
+:where(img, button, a:not(p a)) {
   display: block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+img:has(+ p) {
+  margin-bottom: 1rem;
 }
 
 a {
@@ -44,28 +51,93 @@ button {
   cursor: pointer;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
+:where(#name, #job-title, h1, h2, h3, h4, h5, h6) {
+  margin: 0.25rem 0;
   text-align: center;
 }
 
-ul,
-ol,
-li {
+:where(h1, h2, h3, h4, h5, h6):has(+ img) {
+  margin-bottom: 1rem;
+}
+
+[aria-label="Employment details"] > :is(h1, h2, h3, h4, h5, h6) {
+  text-align: left;
+}
+
+h1 {
+  font-size: 2.6rem;
+}
+
+h2 {
+  font-size: 2.4rem;
+}
+
+h2:has(+ [role="group"]) {
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+[aria-label="Project"] h3 {
+  text-align: left;
+}
+
+.project-image {
+  margin: 0 auto;
+}
+
+.project-image:has(+ p) {
+  margin-bottom: 1rem;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1.8rem;
+}
+
+:where(ul, ol, li)[class] {
   padding: 0;
   margin: 0;
+  list-style-type: none;
+}
+
+blockquote {
+  position: relative;
+  padding: 2rem;
+  font-size: 1.8rem;
+  margin: 1rem 2rem;
+}
+
+blockquote cite {
+  text-align: end;
+}
+
+blockquote::before,
+blockquote::after {
+  position: absolute;
+  font-size: 4rem;
+}
+
+blockquote::before {
+  content: "“";
+  top: 0;
+  left: -2rem;
+}
+
+blockquote::after {
+  content: "”";
+  bottom: 0;
+  right: -2rem;
 }
 
 p {
   margin-top: 0;
   margin-bottom: 1.2rem;
   line-height: 1.15;
-  text-align: justify;
+  text-wrap: pretty;
 }
 
 #site-container {
@@ -112,15 +184,6 @@ p {
   font-size: 2.3rem;
 }
 
-h1 {
-  font-size: 2.6rem;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 2.3rem;
-}
-
 .sr-only {
   position: absolute;
   white-space: nowrap;
@@ -153,6 +216,7 @@ h2 {
 #hamburger {
   --hamburger-button-size: 4.2rem;
   position: fixed;
+  z-index: 1;
   top: 1.5rem;
   left: 1.5rem;
   display: flex;
@@ -179,8 +243,9 @@ h2 {
   flex-direction: column;
   justify-content: space-between;
   width: 22rem;
-  height: 100vh;
+  height: 100dvh;
   position: fixed;
+  z-index: 2;
   inset: 0 auto 0 0;
   padding: 2rem 1rem;
   border-right: 1px solid #000;
@@ -192,7 +257,7 @@ h2 {
   transition-duration: 400ms;
   transition-timing-function: ease;
 
-  &[aria-hidden="false"] {
+  &[data-expanded="true"] {
     transform: translateX(0%);
 
     nav {
@@ -258,11 +323,11 @@ h2 {
 }
 
 #main-grid {
-  display: grid;
-  grid-template-columns: 1fr 55%;
+  grid-template-columns: 1fr 60%;
   max-width: 160rem;
   margin: 6rem auto 0 auto;
   padding: 0.5rem;
+  margin-bottom: 25rem;
 }
 
 .purple-card {
@@ -277,10 +342,6 @@ h2 {
   padding-bottom: 0.5rem;
 }
 
-.purple-card:last-child {
-  margin-bottom: 25rem;
-}
-
 h1:only-child {
   margin-bottom: 0;
 }
@@ -290,33 +351,27 @@ h1:only-child {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.2rem 1rem;
-
-  .skill {
-    display: grid;
-    place-items: center;
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 0.4rem;
-    padding: 0.7rem;
-    text-decoration: none;
-    color: #000;
-    border: 1px solid #000;
-    background-color: var(--text-color);
-    box-shadow: 2px 2px 0 #000;
-    width: 18rem;
-    height: 5.4rem;
-  }
 }
 
-@media (max-width: 767px) {
-  #main-grid {
-    display: block;
+.skills-container li {
+  display: grid;
+  place-items: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 0.4rem;
+  padding: 0.25rem;
+  text-decoration: none;
+  color: #000;
+  border: 1px solid #000;
+  background-color: var(--text-color);
+  box-shadow: 2px 2px 0 #000;
+  width: 45%;
+  height: 5.4rem;
+}
 
-    #empty {
-      display: none;
-    }
-  }
+#main-grid #empty {
+  display: none;
 }
 
 .employer {
@@ -324,7 +379,6 @@ h1:only-child {
 }
 
 .job-title {
-  font-weight: bold;
   margin-bottom: 0.25rem;
 }
 
@@ -346,4 +400,28 @@ hr {
 
 #experience span {
   white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  #main-grid {
+    display: grid;
+    margin-bottom: 5rem;
+  }
+
+  #main-grid #empty {
+    display: revert;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  .skills-container li {
+    font-size: 1.8rem;
+    width: 18rem;
+  }
+
+  blockquote {
+    font-size: 2.25rem;
+  }
 }
