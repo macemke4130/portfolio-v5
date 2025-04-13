@@ -1,0 +1,164 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: monospace;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  font-weight: normal;
+}
+
+a {
+  color: inherit;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  color: white;
+  padding: 2rem 0;
+  border-bottom: dashed white 0.5rem;
+  background: black;
+}
+main {
+  padding-top: 1rem;
+}
+
+#main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.instructions {
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+label > span {
+  font-size: 1.2rem;
+}
+
+input {
+  width: 25rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid black;
+}
+
+#tire-buttons {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  row-gap: 1rem;
+  column-gap: 0.25rem;
+  white-space: nowrap;
+  flex-wrap: wrap;
+  width: 35rem;
+}
+
+#builder-list button {
+  text-transform: capitalize;
+}
+
+#clear-builders-button {
+  display: block;
+  font-family: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0.25rem;
+  margin: 0.25rem;
+  background: transparent;
+  border: none;
+}
+
+#builder-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 40rem;
+  justify-content: center;
+}
+
+button {
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+}
+
+.custom button {
+  margin-top: 1rem;
+}
+
+#sticker-preview {
+  text-transform: uppercase;
+  margin: 2rem auto;
+  width: 2.25in;
+  height: 1.25in;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0.2rem 0.2rem 0.5rem black;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+#sticker-preview.custom {
+  justify-content: center;
+  gap: 1rem;
+}
+
+#sticker-preview.custom p:empty {
+  display: none;
+}
+
+#title-preview {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.barcode-group {
+  line-height: 0.8;
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+}
+
+svg:empty {
+  display: none;
+}

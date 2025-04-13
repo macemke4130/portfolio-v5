@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Serialized Build Sticker</title>
+  </head>
+  <body>
+    <header>
+      <h1>Serialized Build Sticker</h1>
+      <aside>Version 2.0</aside>
+      <h2 class="author">Built by <a href="/">Lucas Mace</a></h2>
+      <a href="./custom-sticker.html">Custom Sticker</a>
+    </header>
+    <main>
+      <div class="instructions">
+        Sticker will open in new window and close automatically, after printing.<br />Be sure to allow popups.<br />Set Zebra Label Printer Margins to "None".
+      </div>
+      <div id="main-wrapper">
+        <div id="controls">
+          <label>
+            <span>Bicycle Serial Number<sup>*</sup></span>
+            <input id="bike-serial-input" type="text" autocomplete="off" autofocus />
+          </label>
+          <label>
+            <span>E-Bike Key Serial Number</span>
+            <input id="key-serial-input" type="text" autocomplete="off" />
+          </label>
+          <label>
+            <span>Tubes / Tubeless</span>
+            <div id="tire-buttons">
+              <button>Non-Tubeless Bike</button>
+              <button>Orange Seal</button>
+              <button>Stan's No Tubes</button> <br />
+              <button>Reserve Seal</button>
+              <button>Tubes Inside Tubeless</button>
+            </div>
+          </label>
+          <label>
+            <span>Builder<sup>*</sup></span>
+            <input id="bike-builder-input" type="text" autocomplete="off" />
+          </label>
+          <div id="builder-list"></div>
+          <button id="clear-builders-button" style="display: none">Clear Builder Names</button>
+          <label>
+            <span>Date Built<sup>*</sup></span>
+            <input id="date-input" type="date" autocomplete="off" />
+          </label>
+          <button id="print-button">Print</button>
+          <div class="instructions"><sup>*</sup>Required</div>
+        </div>
+        <div id="sticker-wrapper">
+          <section id="sticker-preview">
+            <div id="builder-and-date">
+              <span id="bike-builder-preview"></span>
+              <span id="date-preview"></span>
+            </div>
+            <p id="tires-preview"></p>
+            <div class="barcode-group">
+              <p id="bike-serial-preview-text"></p>
+              <svg id="bike-serial-preview-barcode"></svg>
+            </div>
+            <div class="barcode-group">
+              <p id="key-serial-preview-text"></p>
+              <svg id="key-serial-preview-barcode"></svg>
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- <button id="load-previous">Load Previous</button> -->
+    </main>
+
+    <script src="./JsBarcode.all.min.js"></script>
+    <script src="./serialized.js"></script>
+  </body>
+</html>

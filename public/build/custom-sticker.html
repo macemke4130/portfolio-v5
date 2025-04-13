@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Custom Sticker</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Custom Sticker</h1>
+      <aside>Version 2</aside>
+      <h2>Built by <a href="http://www.lucasmace.com/" target="_blank" rel="noreferrer">Lucas Mace</a></h2>
+      <a href="./index.html">Build Sticker</a>
+    </header>
+    <main>
+      <div class="instructions">
+        Sticker will open in new window and close automatically, after printing.<br />Be sure to allow popups.<br />Set Zebra Label Printer Margins to "None".
+      </div>
+      <div id="controls" class="custom">
+        <label
+          >Title
+          <input id="title" type="text" autocomplete="off" />
+        </label>
+        <label
+          >Description
+          <textarea id="body" cols="80" rows="10"></textarea>
+        </label>
+        <button id="print-button">Print</button>
+      </div>
+      <div id="sticker-wrapper">
+        <section id="sticker-preview" class="custom">
+          <p id="title-preview"></p>
+          <p id="body-preview"></p>
+        </section>
+      </div>
+    </main>
+    <script src="./JsBarcode.all.min.js"></script>
+    <script src="./customSticker.js"></script>
+  </body>
+</html>
