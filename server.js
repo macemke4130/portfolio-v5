@@ -14,6 +14,10 @@ const __dirname = dirname(__filename);
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/build/index.html", (req, res) => {
+  res.redirect(301, "/projects/build-sticker/");
+});
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
