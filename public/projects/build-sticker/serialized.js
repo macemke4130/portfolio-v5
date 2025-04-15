@@ -192,6 +192,10 @@ const handleTireClick = (event) => {
 };
 
 const printIt = () => {
+  gtag("event", "print_serialized", {
+    builder: bikeBuilderInput.value,
+  });
+
   const stickerHTML = document.querySelector("#sticker-wrapper").innerHTML;
 
   const popupPrint = window.open("", "", "height=750, width=750");
