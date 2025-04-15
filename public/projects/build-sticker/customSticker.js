@@ -13,6 +13,8 @@ const generate = () => {
 };
 
 const printIt = () => {
+  gtag("event", "print_custom");
+
   const stickerHTML = document.querySelector("#sticker-wrapper").innerHTML;
 
   const popupPrint = window.open("", "", "height=750, width=750");

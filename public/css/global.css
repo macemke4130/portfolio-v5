@@ -414,6 +414,12 @@ hr {
   text-decoration: none;
 }
 
+#pdf-resume {
+  margin: 1rem auto;
+  display: block;
+  align-content: center;
+}
+
 @media (min-width: 768px) {
   #main-grid {
     display: grid;
