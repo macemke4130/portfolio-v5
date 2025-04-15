@@ -414,6 +414,11 @@ hr {
   text-decoration: none;
 }
 
+#pdf-button-wrapper {
+  max-width: 80ch;
+  margin-left: auto;
+}
+
 #pdf-resume {
   margin: 1rem auto;
   display: block;
