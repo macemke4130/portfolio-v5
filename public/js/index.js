@@ -104,13 +104,8 @@ const startCountup = () => {
   experienceTimer = setInterval(() => {
     updateExperience();
   }, 250);
-  cleanupList.push({ type: "setInterval", variable: experienceTimer });
 };
 
-export const runOnImport = () => {
-  initExperienceSpan();
-  resetCurrentExperienceValues();
-  startCountup();
-};
-
-runOnImport();
+initExperienceSpan();
+resetCurrentExperienceValues();
+startCountup();

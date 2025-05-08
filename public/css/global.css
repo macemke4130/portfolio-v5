@@ -426,6 +426,10 @@ hr {
 }
 
 @media (min-width: 768px) {
+  #site-header {
+    height: 5rem;
+  }
+
   #main-grid {
     display: grid;
     margin-bottom: 5rem;

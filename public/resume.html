@@ -17,6 +17,18 @@
     <title>Lucas Mace | Resume</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
     <link href="./css/global.css" rel="stylesheet" />
+    <script type="speculationrules">
+      {
+        "prefetch": [
+          {
+            "where": {
+              "selector_matches": "#main-navigation a"
+            },
+            "eagerness": "eager"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="site-container">
@@ -106,11 +118,11 @@
               </div>
             </section>
           </div>
-          <script src="./js/resume.js" type="module" defer></script>
         </main>
       </div>
     </div>
 
     <script src="./js/global.js"></script>
+    <script src="./js/resume.js"></script>
   </body>
 </html>

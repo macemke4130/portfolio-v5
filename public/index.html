@@ -17,6 +17,18 @@
     <title>Lucas Mace | Full Stack Web Developer</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
     <link href="./css/global.css" rel="stylesheet" />
+    <script type="speculationrules">
+      {
+        "prefetch": [
+          {
+            "where": {
+              "selector_matches": "#main-navigation a"
+            },
+            "eagerness": "eager"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="site-container">
@@ -56,11 +68,11 @@
             </p>
             <p>Please check out my <a href="/resume.html">resume</a> for more information.</p>
           </div>
-          <script src="./js/index.js" type="module" defer></script>
         </main>
       </div>
     </div>
 
     <script src="./js/global.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>
