@@ -2,9 +2,38 @@
 <div id="name">Lucas Mace</div>
 <div id="job-title">Full Stack Web Developer</div>
 <button id="hamburger" aria-label="Open navigation" aria-controls="navigation-drawer" aria-expanded="false">
-  <div aria-hidden="true"></div>
-  <div aria-hidden="true"></div>
-  <div aria-hidden="true"></div>
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <defs>
+      <style>
+        rect {
+          rx: 5%;
+        }
+
+        [x] {
+          width: 90%;
+          height: 90%;
+          stroke-width: 2.5%;
+          stroke: #000;
+          paint-order: stroke;
+        }
+
+        [y="2.5"] {
+          fill: var(--text-color);
+        }
+
+        rect:not([x]) {
+          x: 10%;
+          width: 75%;
+          height: 12%;
+        }
+      </style>
+    </defs>
+    <rect x="7.5" y="7.5" />
+    <rect x="2.5" y="2.5" />
+    <rect y="15" />
+    <rect y="42.5" />
+    <rect y="70" />
+  </svg>
 </button>
 <div id="navigation-drawer" data-expanded="false">
   <nav id="main-navigation">
