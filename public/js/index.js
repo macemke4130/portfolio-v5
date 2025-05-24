@@ -1,10 +1,12 @@
 let experienceTimer = 0;
 
+const averageDaysInMonth = (31 + (28 + 28 + 28 + 29) / 4 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + 31) / 12;
+
 const msInSecond = 1000;
 const msInMinute = 60000;
 const msInHour = 3.6e6;
 const msInDay = 8.64e7;
-const msInMonth = msInDay * 30;
+const msInMonth = msInDay * averageDaysInMonth;
 const msInYear = 3.154e10;
 
 const visionMonths = 41;
