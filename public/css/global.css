@@ -198,7 +198,7 @@ p {
   height: 100%;
   position: absolute;
   inset: 0;
-  cursor: default;
+  cursor: url("../img/close-cursor.svg"), auto;
 
   transition-property: transform;
   transition-duration: 400ms;
