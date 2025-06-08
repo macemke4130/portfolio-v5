@@ -106,4 +106,5 @@ const startCountup = () => {
 
 initExperienceSpan();
 resetCurrentExperienceValues();
+updateExperience();
 startCountup();
