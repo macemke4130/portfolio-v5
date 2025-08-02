@@ -2,5 +2,4 @@ node_modules
 public/projects/fms/budData.js
 prms-local.sql
 prms.sql
-config
 .env
