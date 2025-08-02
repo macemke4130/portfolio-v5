@@ -8,6 +8,16 @@ const privateKey = config.keys.jwt;
 
 const router = express.Router();
 
+router.get(`${apiRoute}/greet/`, async (req, res) => {
+  const response = {
+    message: "Greeting.",
+    status: 200,
+    data: "Hello, Mace!",
+  };
+
+  res.json(response);
+});
+
 router.post(`${apiRoute}/admin/jwt`, async (req, res) => {
   const tokenFromFrontEnd = req.body.token;
 
