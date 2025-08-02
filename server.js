@@ -3,11 +3,16 @@ import path from "path";
 import compression from "compression";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import api from "./api.js";
 
 const app = express();
 const port = process.env.PORT || 3002;
 
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(api);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

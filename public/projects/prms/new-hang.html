@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRMS</title>
+  </head>
+  <body>
+    <div>PRMS</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Friends</a></li>
+        <li><a href="new-hang.html">New Hang</a></li>
+        <li><a href="new-folk.html">New Friend</a></li>
+      </ul>
+    </nav>
+    <h1>New Hang</h1>
+    <div role="form">
+      <ul id="folks-list"></ul>
+      <label for="location">Location</label>
+      <input id="location" type="text" value="Minneapolis" />
+      <div>
+        <label for="hang-details">Details</label><br />
+        <textarea id="hang-details" cols="35" rows="15"></textarea>
+      </div>
+      <button id="submit-hang" type="submit">Submit Hang</button>
+    </div>
+
+    <script src="js/global.js"></script>
+    <script src="js/new-hang.js"></script>
+  </body>
+</html>
