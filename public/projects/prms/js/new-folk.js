@@ -5,7 +5,16 @@ const handleSubmitFolkButton = async () => {
     name: $("#folk-name").value,
   };
 
-  await apiHelper("/api/folks/new-folk", "POST", data);
+  const request = await apiHelper("/api/folks/new-folk", "POST", data);
+
+  if (request.status === 200) {
+    window.location = `./index.html`;
+  }
 };
 
+const handleFormSubmit = (event) => {
+  event.preventDefault();
+};
+
+$("#new-folk").addEventListener("submit", handleFormSubmit);
 submitFolkButton.addEventListener("click", handleSubmitFolkButton);
