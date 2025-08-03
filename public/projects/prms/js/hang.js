@@ -32,9 +32,11 @@ const populateFolksAtHangDOM = (folks) => {
 };
 
 const populateHangDetails = (hang) => {
+  const detailsWithBreaks = hang.details.replace(/\n/g, "<br>");
+
   $("h1").textContent = dateFormatter(hang.date);
   $("#hang-location").textContent = hang.location;
-  $("#hang-details").textContent = hang.details;
+  $("#hang-details").innerHTML = detailsWithBreaks;
   $("#edit-hang").setAttribute("href", `edit-hang.html?id=${id}`);
 };
 
