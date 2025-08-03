@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRMS</title>
+  </head>
+  <body>
+    <div>PRMS</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Friends</a></li>
+        <li><a href="new-hang.html">New Hang</a></li>
+        <li><a href="new-folk.html">New Friend</a></li>
+      </ul>
+    </nav>
+    <h1>Edit Hang</h1>
+    <label for="hang-date">Date</label>
+    <input id="hang-date" type="date" />
+    <form id="edit-hang">
+      <div>
+        <label for="hang-details">Details</label><br />
+        <textarea id="hang-details" cols="35" rows="15"></textarea>
+      </div>
+      <fieldset>
+        <legend>Who was there?</legend>
+        <ul id="folks-list"></ul>
+      </fieldset>
+      <label for="hang-location">Location</label>
+      <input id="hang-location" type="text" value="Minneapolis" />
+
+      <button id="submit-edit" type="submit">Submit Edit</button>
+    </form>
+
+    <script src="js/global.js"></script>
+    <script src="js/edit-hang.js"></script>
+  </body>
+</html>

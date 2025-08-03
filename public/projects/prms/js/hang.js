@@ -35,6 +35,7 @@ const populateHangDetails = (hang) => {
   $("h1").textContent = dateFormatter(hang.date);
   $("#hang-location").textContent = hang.location;
   $("#hang-details").textContent = hang.details;
+  $("#edit-hang").setAttribute("href", `edit-hang.html?id=${id}`);
 };
 
 getFolksAtHang(id);

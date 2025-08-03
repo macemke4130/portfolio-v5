@@ -177,6 +177,92 @@ router.post(`${apiRoute}/folks/new-folk`, async (req, res) => {
   }
 });
 
+router.post(`${apiRoute}/folks/hangs/:id/add-folks`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const id = req.params.id;
+  const folks = req.body.folks;
+
+  const insertedRows = [];
+
+  try {
+    folks.forEach(async (folk) => {
+      const sql = await query(`INSERT INTO folks_at_hangs (folks_id, hangs_id) VALUES (?, ?)`, [folk, id]);
+      insertedRows.push(sql.insertId);
+    });
+
+    const response = {
+      message: "Folks inserted.",
+      status: 200,
+      data: { insertedRows },
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/folks/hangs/:id/update`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const id = req.params.id;
+  const data = prepData(req.body);
+
+  const columns = data.columns;
+  const values = data.values;
+
+  let queryString = "";
+
+  for (let index = 0; index < Object.keys(data).length; index++) {
+    const column = columns[index];
+    const value = values[index];
+
+    queryString = `${queryString} ${column} = "${value}",`;
+  }
+
+  // Remove final comma.
+  queryString = queryString.slice(0, -1);
+
+  try {
+    const sql = await query(`UPDATE hangs SET ${queryString} WHERE id = ?`, [id]);
+
+    const response = {
+      message: "Folks inserted.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
 router.post(`${apiRoute}/folks/:id/hangs/`, async (req, res) => {
   const isValidJWT = await authorize(req.body.jwt);
 
@@ -226,6 +312,38 @@ router.post(`${apiRoute}/folks/hangs/:id`, async (req, res) => {
 
     const response = {
       message: "All hangs.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/folks/hangs/:id/delete-folks`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const id = req.params.id;
+
+  try {
+    const sql = await query(`DElETE FROM folks_at_hangs WHERE hangs_id = ${id};`);
+
+    const response = {
+      message: `Deleted folks at hang ${id}.`,
       status: 200,
       data: sql,
     };
