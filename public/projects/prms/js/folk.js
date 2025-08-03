@@ -52,6 +52,8 @@ const handleSubmitFactClick = async () => {
     fact_info: $("#fact-info").value,
   };
 
+  if (!data.fact_info) return;
+
   const request = await apiHelper(`/api/folks/${id}/new-fact`, "POST", data);
 
   if (request.status === 200) {
