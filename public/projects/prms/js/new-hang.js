@@ -36,8 +36,18 @@ const handleSubmitHangClick = async () => {
   };
 
   const request = await apiHelper("/api/folks/new-hang", "POST", data);
+
+  if (request.status === 200) {
+    const newHangId = request.data.insertId;
+    window.location = `./hang.html?id=${newHangId}`;
+  }
 };
 
 populateFolksListInputs();
 
+const handleFormSubmit = (event) => {
+  event.preventDefault();
+};
+
+$("#new-hang").addEventListener("submit", handleFormSubmit);
 submitHangButton.addEventListener("click", handleSubmitHangClick);

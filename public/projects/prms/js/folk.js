@@ -3,6 +3,7 @@ const params = new URLSearchParams(url.search);
 const id = params.get("id");
 
 const submitFactButton = $("#submit-fact");
+const factListElement = $("#fact-list");
 
 const folk = {
   id: -1,
@@ -54,13 +55,15 @@ const handleSubmitFactClick = async () => {
   const request = await apiHelper(`/api/folks/${id}/new-fact`, "POST", data);
 
   if (request.status === 200) {
-    window.location.reload();
+    factListElement.innerHTML = "";
+    $("#fact-title").value = "";
+    $("#fact-info").value = "";
+    $("#fact-title").focus();
+    getFacts();
   }
 };
 
 const buildFactList = (lists) => {
-  const factListElement = $("#fact-list");
-
   lists.titledFacts.forEach((fact) => {
     const liElement = dom("li");
     const bElement = dom("b");
@@ -93,7 +96,12 @@ const getFacts = async () => {
   buildFactList({ titledFacts, nonTitledFacts });
 };
 
+const handleFormSubmit = (event) => {
+  event.preventDefault();
+};
+
 getFolk();
 getFacts();
 
+$("#new-fact").addEventListener("submit", handleFormSubmit);
 submitFactButton.addEventListener("click", handleSubmitFactClick);

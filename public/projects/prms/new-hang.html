@@ -15,14 +15,18 @@
       </ul>
     </nav>
     <h1>New Hang</h1>
-    <form>
-      <ul id="folks-list"></ul>
-      <label for="location">Location</label>
-      <input id="location" type="text" value="Minneapolis" />
+    <form id="new-hang">
       <div>
         <label for="hang-details">Details</label><br />
         <textarea id="hang-details" cols="35" rows="15"></textarea>
       </div>
+      <fieldset>
+        <legend>Who was there?</legend>
+        <ul id="folks-list"></ul>
+      </fieldset>
+      <label for="location">Location</label>
+      <input id="location" type="text" value="Minneapolis" />
+
       <button id="submit-hang" type="submit">Submit Hang</button>
     </form>
 
