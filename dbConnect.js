@@ -5,6 +5,9 @@ import { createPool } from "mysql2";
 export const apiRoute = "/api";
 
 export const prepData = (data) => {
+  // Remove JWT token. Already authorized.
+  delete data.jwt;
+
   // How many question marks to display for MySQL VALUES().
   const marks = Object.keys(data).fill("?").join(", ");
 

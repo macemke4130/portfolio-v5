@@ -1,11 +1,11 @@
-const apiHelper = async (path, method = "GET", data) => {
+const apiHelper = async (path, method = "POST", data = { jwt: "" }) => {
   const headers = { "Content-Type": "application/json", Accept: "application/json" };
   const options = { method, headers };
 
-  if (data) {
-    const body = JSON.stringify(data);
-    options.body = body;
-  }
+  data.jwt = localStorage.getItem("jwt");
+
+  const body = JSON.stringify(data);
+  options.body = body;
 
   try {
     const request = await fetch(path, options);
@@ -16,6 +16,21 @@ const apiHelper = async (path, method = "GET", data) => {
     return null;
   }
 };
+
+(async () => {
+  let redirect = true;
+
+  if (window.location.pathname.includes("login.html")) {
+    redirect = false;
+  } else {
+    const request = await apiHelper(`/api/folks/auth`);
+    redirect = request.data ? false : true;
+  }
+
+  if (redirect) {
+    window.location = "login.html";
+  }
+})();
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
