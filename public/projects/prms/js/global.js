@@ -1,4 +1,5 @@
-const root = "https://www.lucasmace.com";
+const root = "http://localhost:3002";
+// const root = "https://www.lucasmace.com";
 
 const apiHelper = async (path, method = "GET", data) => {
   const headers = { "Content-Type": "application/json", Accept: "application/json" };

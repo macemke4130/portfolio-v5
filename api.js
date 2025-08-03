@@ -169,6 +169,31 @@ router.get(`${apiRoute}/folks/at-hangs/:id`, async (req, res) => {
   }
 });
 
+router.get(`${apiRoute}/folks/facts/:id`, async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const sql = await query(`SELECT fact_title, fact_info FROM facts WHERE folks_id = ${id};`);
+
+    const response = {
+      message: "All facts.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
 router.post(`${apiRoute}/folks/new-hang`, async (req, res) => {
   const folksAtHang = req.body.folksAtHang;
   delete req.body.folksAtHang;
@@ -211,6 +236,31 @@ router.post(`${apiRoute}/folks/new-folk`, async (req, res) => {
 
     const response = {
       message: "New folk successfully inserted.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/folks/:id/new-fact`, async (req, res) => {
+  const data = prepData(req.body);
+
+  try {
+    const sql = await query(`INSERT INTO facts (${data.columns}) VALUES (${data.marks})`, data.values);
+
+    const response = {
+      message: "New fact successfully inserted.",
       status: 200,
       data: sql,
     };
