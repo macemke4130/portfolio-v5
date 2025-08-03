@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  --button-background: rgb(72, 90, 90);
+
+  font-size: 10px;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 1.8rem;
+  color: #fff;
+  background-color: slategray;
+  margin: 0;
+}
+
+header {
+  padding: 0.5rem;
+  background-color: darkgrey;
+
+  nav ul {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0;
+
+      a {
+        display: block;
+        padding: 1rem;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+main {
+  padding-inline: 1rem;
+  padding-block-end: 5rem;
+}
+
+:where(h1, h2, h3) {
+  text-align: center;
+  margin-block-end: 0.5rem;
+}
+
+:where(a) {
+  color: inherit;
+}
+
+:where(ul) {
+  margin-block: 0;
+  padding-inline: 1rem;
+}
+
+:where(li a) {
+  padding: 0.5rem;
+}
+
+#folks-list,
+#fact-list,
+#hangs-list {
+  list-style-type: none;
+
+  li {
+    margin-block-end: 2rem;
+
+    a {
+      display: block;
+      text-decoration: none;
+      width: 80%;
+      margin-inline: auto;
+      background-color: var(--button-background);
+      text-align: center;
+    }
+  }
+}
+
+#hang-location {
+  text-align: center;
+}
+
+#hang-participants {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  list-style-type: none;
+  flex-wrap: wrap;
+}
+
+p#hang-details {
+  margin-block-start: 0;
+  padding: 1rem;
+  background-color: var(--button-background);
+}
+
+textarea#hang-details {
+  padding: 1rem;
+  font-size: 1.8rem;
+  width: 100%;
+  margin-block-end: 1rem;
+}
+
+fieldset {
+  margin-block-end: 2rem;
+
+  #folks-list {
+    display: flex;
+    align-items: start;
+    column-gap: 3rem;
+    row-gap: 3rem;
+    flex-wrap: wrap;
+
+    li {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      label {
+        padding-inline: 1rem;
+        padding-block-start: 1rem;
+        padding-block-end: 0;
+      }
+
+      input {
+        scale: 1.5;
+      }
+    }
+  }
+}
+
+form {
+  button {
+    display: block;
+    margin-block: 2rem;
+    color: #fff;
+    font-size: inherit;
+    font-family: inherit;
+    border: 1px solid #fff9;
+    border-radius: 100vw;
+    padding: 1rem 2rem;
+    background-color: var(--button-background);
+  }
+}

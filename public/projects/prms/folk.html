@@ -4,29 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PRMS</title>
+    <link href="css/global.css" rel="stylesheet" />
   </head>
   <body>
-    <div>PRMS</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Friends</a></li>
-        <li><a href="new-hang.html">New Hang</a></li>
-        <li><a href="new-folk.html">New Friend</a></li>
-      </ul>
-    </nav>
-    <h1></h1>
-    <h2>Facts</h2>
-    <ul id="fact-list"></ul>
-    <form id="new-fact">
-      <h3>New Fact</h3>
-      <label for="fact-title">Title</label>
-      <input id="fact-title" type="text" /><br />
-      <label for="fact-info">Info</label>
-      <input id="fact-info" type="text" /><br />
-      <button id="submit-fact" type="submit">Submit Fact</button>
-    </form>
-    <h2>Hangs</h2>
-    <ul id="hangs-list"></ul>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Friends</a></li>
+          <li><a href="new-hang.html">New Hang</a></li>
+          <li><a href="new-folk.html">New Friend</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1></h1>
+      <h2>Facts</h2>
+      <ul id="fact-list"></ul>
+      <form id="new-fact">
+        <h3>New Fact</h3>
+        <label for="fact-title">Title</label>
+        <input id="fact-title" type="text" autocomplete="off" /><br />
+        <label for="fact-info">Info</label>
+        <input id="fact-info" type="text" autocomplete="off" /><br />
+        <button id="submit-fact" type="submit">Submit Fact</button>
+      </form>
+      <h2>Hangs</h2>
+      <ul id="hangs-list"></ul>
+    </main>
+
     <script src="js/global.js"></script>
     <script src="js/folk.js"></script>
   </body>

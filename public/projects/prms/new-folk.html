@@ -4,22 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PRMS</title>
+    <link href="css/global.css" rel="stylesheet" />
   </head>
   <body>
-    <div>PRMS</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Friends</a></li>
-        <li><a href="new-hang.html">New Hang</a></li>
-        <li><a href="new-folk.html">New Friend</a></li>
-      </ul>
-    </nav>
-    <h1>New Friend</h1>
-    <form id="new-folk">
-      <label for="folk-name">Name</label>
-      <input id="folk-name" type="text" />
-      <button id="submit-folk" type="submit">Submit New Friend</button>
-    </form>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Friends</a></li>
+          <li><a href="new-hang.html">New Hang</a></li>
+          <li><a href="new-folk.html">New Friend</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1>New Friend</h1>
+      <form id="new-folk">
+        <label for="folk-name">Name</label>
+        <input id="folk-name" type="text" autocomplete="off" />
+        <button id="submit-folk" type="submit">Submit New Friend</button>
+      </form>
+    </main>
+
     <script src="js/global.js"></script>
     <script src="js/new-folk.js"></script>
   </body>

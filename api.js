@@ -532,7 +532,7 @@ router.post(`${apiRoute}/folks/`, async (req, res) => {
   }
 
   try {
-    const sql = await query(`SELECT * FROM folks;`);
+    const sql = await query(`SELECT * FROM folks ORDER BY name ASC;`);
 
     const response = {
       message: "All Folks.",
