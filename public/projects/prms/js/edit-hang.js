@@ -81,7 +81,7 @@ const addFolksToHang = async () => {
 
 const submitHangDetails = async () => {
   const data = {
-    date: $("#hang-date").value,
+    date: $("#hang-date").value + " 12:00:00",
     location: $("#hang-location").value,
     details: $("#hang-details").value,
   };
