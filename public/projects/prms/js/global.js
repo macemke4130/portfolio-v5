@@ -1,6 +1,3 @@
-const root = "http://localhost:3002";
-// const root = "https://www.lucasmace.com";
-
 const apiHelper = async (path, method = "GET", data) => {
   const headers = { "Content-Type": "application/json", Accept: "application/json" };
   const options = { method, headers };
@@ -11,7 +8,7 @@ const apiHelper = async (path, method = "GET", data) => {
   }
 
   try {
-    const request = await fetch(`${root}${path}`, options);
+    const request = await fetch(path, options);
     const response = await request.json();
     return response;
   } catch (error) {
