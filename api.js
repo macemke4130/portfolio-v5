@@ -113,24 +113,37 @@ router.post(`${apiRoute}/folks/new-hang`, async (req, res) => {
   }
 
   const folksAtHang = req.body.folksAtHang;
+
   delete req.body.folksAtHang;
+
   const data = prepData(req.body);
 
   try {
-    const sql = await query(`INSERT INTO hangs (${data.columns}) VALUES (${data.marks})`, data.values);
+    const hangsQuery = await query(`INSERT INTO hangs (${data.columns}) VALUES (${data.marks})`, data.values);
+
+    const hangId = hangsQuery.insertId;
+
+    let sqlString = `INSERT INTO folks_at_hangs (folks_id, hangs_id) VALUES `;
+
+    for (let index = 0; index < folksAtHang.length; index++) {
+      sqlString = `${sqlString} (?, ?),`;
+    }
+
+    // Remove trailing comma.
+    sqlString = sqlString.slice(0, -1);
+
+    const values = folksAtHang.flatMap((folkId) => [folkId, hangId]);
+
+    const folksAtHangsQuery = await query(sqlString, values);
 
     const response = {
       message: "New hang successfully inserted.",
       status: 200,
-      data: sql,
+      data: {
+        hangsQuery,
+        folksAtHangsQuery,
+      },
     };
-
-    const hangId = response.data.insertId;
-
-    folksAtHang.forEach(async (folk) => {
-      const folkId = Number(folk);
-      await query(`INSERT INTO folks_at_hangs (folks_id, hangs_id) VALUES (?, ?)`, [folkId, hangId]);
-    });
 
     res.json(response);
   } catch (e) {
@@ -185,21 +198,29 @@ router.post(`${apiRoute}/folks/hangs/:id/add-folks`, async (req, res) => {
     return;
   }
 
-  const id = req.params.id;
-  const folks = req.body.folks;
+  const folksAtHang = req.body.folks;
+  if (!folksAtHang.length) return;
 
-  const insertedRows = [];
+  const hangId = Number(req.params.id);
+
+  let queryString = "INSERT INTO folks_at_hangs (folks_id, hangs_id) VALUES ";
+
+  for (let index = 0; index < folksAtHang.length; index++) {
+    queryString = ` ${queryString} (?, ?),`;
+  }
+
+  // Remove final comma.
+  queryString = queryString.slice(0, -1).trim();
+
+  const values = folksAtHang.flatMap((value) => [value, hangId]);
 
   try {
-    folks.forEach(async (folk) => {
-      const sql = await query(`INSERT INTO folks_at_hangs (folks_id, hangs_id) VALUES (?, ?)`, [folk, id]);
-      insertedRows.push(sql.insertId);
-    });
+    const sql = await query(queryString, values);
 
     const response = {
       message: "Folks inserted.",
       status: 200,
-      data: { insertedRows },
+      data: sql,
     };
 
     res.json(response);

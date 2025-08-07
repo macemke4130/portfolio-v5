@@ -38,7 +38,7 @@ const handleSubmitHangClick = async () => {
   const request = await apiHelper("/api/folks/new-hang", "POST", data);
 
   if (request.status === 200) {
-    const newHangId = request.data.insertId;
+    const newHangId = request.data.hangsQuery.insertId;
     window.location = `./hang.html?id=${newHangId}`;
   }
 };
