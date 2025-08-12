@@ -318,6 +318,69 @@ router.post(`${apiRoute}/folks/:id/hangs/`, async (req, res) => {
   }
 });
 
+router.post(`${apiRoute}/folks/hangs/`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  try {
+    const sql = await query(
+      `SELECT hangs.id AS hangs_id, folks.id AS folks_id, date, details, location, name FROM hangs JOIN folks_at_hangs ON hangs.id = folks_at_hangs.hangs_id JOIN folks ON folks_at_hangs.folks_id = folks.id ORDER BY date DESC`
+    );
+
+    const hangMap = new Map();
+
+    sql.forEach((hang) => {
+      const hangId = hang.hangs_id;
+
+      if (hangMap.has(hangId)) {
+        const data = {
+          id: hangId,
+          atHangs: hangMap.get(hangId).atHangs,
+          location: hangMap.get(hangId).location,
+          date: hangMap.get(hangId).date,
+          details: hangMap.get(hangId).details,
+        };
+
+        data.atHangs.push({ id: hang.folks_id, name: hang.name });
+        hangMap.set(hangId, data);
+      } else {
+        const data = {
+          id: hangId,
+          atHangs: [{ id: hang.folks_id, name: hang.name }],
+          location: hang.location,
+          date: hang.date,
+          details: hang.details,
+        };
+
+        hangMap.set(hangId, data);
+      }
+    });
+
+    const hangData = [...hangMap.values()];
+
+    const response = {
+      message: "All hangs.",
+      status: 200,
+      data: hangData,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
 router.post(`${apiRoute}/folks/hangs/:id`, async (req, res) => {
   const isValidJWT = await authorize(req.body.jwt);
 
@@ -553,7 +616,7 @@ router.post(`${apiRoute}/folks/`, async (req, res) => {
   }
 
   try {
-    const sql = await query(`SELECT * FROM folks ORDER BY name ASC;`);
+    const sql = await query(`SELECT * FROM folks ORDER BY name ASC`);
 
     const response = {
       message: "All Folks.",

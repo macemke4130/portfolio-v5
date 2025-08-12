@@ -89,6 +89,8 @@ const submitHangDetails = async () => {
   const request = await apiHelper(`/api/folks/hangs/${id}/update/`, "POST", data);
   if (request.status === 200) {
     window.location = `hang.html?id=${id}`;
+  } else {
+    alert(request.sql);
   }
 };
 

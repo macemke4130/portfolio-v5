@@ -31,10 +31,17 @@ header {
     li {
       margin: 0;
 
-      a {
+      a,
+      button {
         display: block;
         padding: 1rem;
         text-decoration: none;
+        background-color: transparent;
+        border: none;
+        color: inherit;
+        font-size: inherit;
+        font-family: inherit;
+        cursor: pointer;
       }
     }
   }
@@ -86,6 +93,26 @@ main {
       border-radius: 100vw;
       border: 1px solid #fff9;
     }
+  }
+}
+
+.hang-container {
+  padding: 1rem;
+  background-color: var(--button-background);
+  max-width: 60rem;
+  margin-inline: auto;
+  margin-block-end: 2rem;
+  text-align: center;
+
+  h2 {
+    margin-block-start: 0;
+  }
+
+  .folks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
   }
 }
 

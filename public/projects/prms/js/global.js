@@ -51,3 +51,8 @@ const dateFormatter = (suppliedDate) => {
 
   return dateSettings;
 };
+
+$("#logout-button").addEventListener("click", () => {
+  localStorage.clear();
+  window.location = `login.html`;
+});
