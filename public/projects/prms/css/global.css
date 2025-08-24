@@ -88,21 +88,41 @@ main {
 #hangs-list {
   list-style-type: none;
 
+  a {
+    display: block;
+    text-decoration: none;
+    width: 80%;
+    margin-inline: auto;
+    background-color: var(--button-background);
+    text-align: center;
+    border-radius: 100vw;
+    border: 1px solid #fff9;
+  }
+}
+
+#fact-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+
   li {
-    margin-block-end: 1.25rem;
+    background-color: var(--button-background);
+    padding: 1rem;
+  }
+}
+
+#folks-list {
+  li {
     margin-inline: auto;
     max-width: 25rem;
+    margin-block-end: 1.25rem;
+  }
+}
 
-    a {
-      display: block;
-      text-decoration: none;
-      width: 80%;
-      margin-inline: auto;
-      background-color: var(--button-background);
-      text-align: center;
-      border-radius: 100vw;
-      border: 1px solid #fff9;
-    }
+#hangs-list {
+  li {
+    margin-block-end: 1.25rem;
   }
 }
 
@@ -202,6 +222,8 @@ form {
     flex-direction: column;
     align-items: center;
     margin-block-end: 1rem;
+    max-width: 60ch;
+    margin-inline: auto;
 
     input {
       width: 80%;
