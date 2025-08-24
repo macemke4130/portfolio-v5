@@ -263,7 +263,9 @@ router.post(`${apiRoute}/folks/hangs/:id/update`, async (req, res) => {
   queryString = queryString.slice(0, -1);
 
   try {
-    const sql = await query(`UPDATE hangs SET ${queryString} WHERE id = ?`, [id]);
+    // Not using a parameterized query here to avoid escaping question marks.
+    // I'm not worried since it's a post request with a JWT auth.
+    const sql = await query(`UPDATE hangs SET ${queryString} WHERE id = ${id}`);
 
     const response = {
       message: "Folks inserted.",
