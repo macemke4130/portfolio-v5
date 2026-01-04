@@ -34,6 +34,170 @@ router.get(`${apiRoute}/greet/`, async (req, res) => {
   res.json(response);
 });
 
+router.post(`${apiRoute}/rm/login`, async (req, res) => {
+  const loginData = req.body;
+
+  let response = {};
+
+  try {
+    const sql = await query(`SELECT password FROM users WHERE email_address = "${loginData.emailAddress}"`);
+
+    // Email address not found.
+    if (!sql.length) {
+      response = {
+        message: `Login failed.`,
+        status: 200,
+        data: { login: false },
+      };
+
+      res.json(response);
+      return;
+    }
+
+    const passwordFromDatabase = sql[0].password;
+    const loginSuccess = loginData.password === passwordFromDatabase;
+
+    if (loginSuccess) {
+      const dataForToken = {
+        emailAddress: loginData.emailAddress,
+      };
+
+      const token = await jsonwebtoken.default.sign({ data: dataForToken }, privateKey, { expiresIn: "1Y" });
+
+      response = {
+        message: `Login Success and JSON Web Token.`,
+        status: 200,
+        data: { login: true, token, username: loginData.emailAddress },
+      };
+    } else {
+      response = {
+        message: `Login failed.`,
+        status: 200,
+        data: { login: false },
+      };
+    }
+
+    res.json(response);
+  } catch (e) {
+    response = {
+      message: `Login failed.`,
+      status: 200,
+      data: { login: false },
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/rm/auth`, async (req, res) => {
+  const authorized = await authorize(req.body.jwt);
+
+  if (authorized) {
+    res.json({
+      message: "Authorized",
+      status: 200,
+      data: { login: true },
+    });
+  } else {
+    res.json(unauthorizedResponse);
+  }
+});
+
+router.post(`${apiRoute}/rm/shopping-list/`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  try {
+    const sql = await query(`SELECT * FROM shopping_list WHERE got_by IS NULL ORDER BY priority DESC, date_added`);
+
+    const response = {
+      message: "Shopping List.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/rm/shopping-list/add`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const data = prepData(req.body);
+
+  try {
+    const sql = await query(`INSERT INTO shopping_list (${data.columns}) VALUES (${data.marks})`, data.values);
+
+    const response = {
+      message: "Shopping List.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/rm/shopping-list/remove`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const data = prepData(req.body);
+
+  try {
+    const sql = await query(`UPDATE shopping_list SET got_by = ? WHERE id IN (?);`, data.values);
+
+    const response = {
+      message: "Shopping List.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
 router.post(`${apiRoute}/folks/auth`, async (req, res) => {
   const authorized = await authorize(req.body.jwt);
 
@@ -300,6 +464,8 @@ router.post(`${apiRoute}/folks/:id/hangs/`, async (req, res) => {
     const sql = await query(
       `SELECT date, details, hangs_id, location FROM folks_at_hangs JOIN hangs ON hangs.id = folks_at_hangs.hangs_id WHERE folks_id = ${id} ORDER BY date DESC;`
     );
+
+    console.log(sql[0]);
 
     const response = {
       message: "All hangs.",
