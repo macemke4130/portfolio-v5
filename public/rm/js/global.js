@@ -46,6 +46,20 @@ const apiHelper = async (path, method = "POST", data = { jwt: "" }) => {
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 const dom = (element) => document.createElement(element || "div");
+const makeDom = (tag, attributes) => {
+  const newElement = document.createElement(tag);
+
+  Object.entries(attributes).forEach((att) => {
+    const attKey = att[0];
+    const attValue = att[1];
+
+    newElement.setAttribute(attKey, attValue);
+  });
+
+  return newElement;
+};
+
+console.log(element("div", { "aria-label": "fuck", "data-foo": "bar" }));
 
 const humanReadableDate = (timestamp) => {
   const date = new Date(timestamp);
@@ -132,7 +146,11 @@ const addHoursToCurrentTime = (hours) => {
   const now = new Date();
   const msToAdd = hours * 60 * 60 * 1000;
   const dateInFuture = new Date(now.getTime() + msToAdd);
-  return dateInFuture.toISOString().split("T")[0];
+  const year = dateInFuture.getFullYear();
+  const month = String(dateInFuture.getMonth() + 1).padStart(2, "0");
+  const day = String(dateInFuture.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 };
 
 const getNextDayOfWeek = (targetDay) => {

@@ -52,11 +52,10 @@
             <label for="new-chore-repeats-hours">Repeats</label>
             <select id="new-chore-repeats-hours">
               <option value="0">Does Not Repeat</option>
-              <option value="12">Twice a day</option>
               <option value="24">Once a day</option>
               <option value="48">Every Other Day</option>
               <option value="168">Once a week</option>
-              <option value="336">Every other week</option>
+              <option value="336" disabled>Every other week - Not yet functional</option>
               <option value="720">Once a month</option>
             </select>
             <label for="new-chore-day-of-week" class="display-none">On day of week</label>
@@ -79,6 +78,8 @@
             <button id="add-chore-button">Add Chore</button>
           </fieldset>
         </form>
+        <h3 id="todays-chores-title">Today's Chores</h3>
+        <ul id="todays-chores-list"></ul>
       </section>
 
       <div id="shopping-list-options" class="display-none">

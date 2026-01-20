@@ -19,7 +19,7 @@ const getShoppingList = async () => {
 };
 
 const handleShoppingListEditButtonClick = (event) => {
-  alert("This doesn't work yet.");
+  alert("This doesn't work yet. Chill.");
 };
 
 const handleShoppingItemCheckboxChange = () => {
@@ -159,19 +159,19 @@ const getChores = async () => {
 const calculateChoreDueDate = () => {
   const repeatsEveryHours = Number($("#new-chore-repeats-hours").value);
   const repeatsEveryWeekday = Number($("#new-chore-day-of-week").value);
-  const isOneTimeChore = $("#new-chore-day-of-week").value === "-1";
+  const isOneTimeChore = $("#new-chore-day-of-week").value !== "-1";
 
   if (isOneTimeChore) {
     return $("#new-chore-due-date").value;
   }
 
-  if (repeatsEveryHours > -1) {
-    // Is a chore that repeats on an hourly basis.
-    return addHoursToCurrentTime(repeatsEveryHours);
-  } else {
+  if (repeatsEveryHours === 168) {
     // Is a chore that repeats on a specific day of week.
     return getNextDayOfWeek(repeatsEveryWeekday);
   }
+
+  // Is a chore that repeats on an hourly basis.
+  return addHoursToCurrentTime(repeatsEveryHours);
 };
 
 const addNewChore = async (event) => {
