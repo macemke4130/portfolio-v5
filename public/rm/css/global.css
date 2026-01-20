@@ -31,6 +31,8 @@ html ::selection {
 }
 
 html {
+  --input-padding: 1rem;
+
   font-size: 10px;
   font-family: var(--font-family);
   background-color: var(--background-color);
@@ -45,6 +47,7 @@ body {
 
 main {
   padding: 1rem;
+  margin-block-end: 20vh;
 }
 
 :where(h1, h2, h3, h4, h5, h6) {
@@ -55,6 +58,10 @@ main {
 
 h1 {
   margin-block-start: 0;
+}
+
+a {
+  color: inherit;
 }
 
 p {

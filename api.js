@@ -104,6 +104,102 @@ router.post(`${apiRoute}/rm/auth`, async (req, res) => {
   }
 });
 
+router.post(`${apiRoute}/rm/chores/day/:dayofweek`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  console.log("Day of week: " + req.params.dayofweek);
+
+  const dayOfWeek = Number(req.params.dayofweek);
+
+  try {
+    const sql = await query(`SELECT * FROM chores WHERE repeats_day_of_week = ${dayOfWeek}`);
+
+    const response = {
+      message: "Today's Chores.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/rm/chores/add`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const data = prepData(req.body);
+
+  try {
+    const sql = await query(`INSERT INTO chores (${data.columns}) VALUES (${data.marks})`, data.values);
+
+    const response = {
+      message: "Chore Added.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/rm/chores/`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  try {
+    const sql = await query(`SELECT * FROM chores WHERE done_by IS NULL`);
+
+    const response = {
+      message: "All unfinished chores.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
 router.post(`${apiRoute}/rm/shopping-list/`, async (req, res) => {
   const isValidJWT = await authorize(req.body.jwt);
 
@@ -177,7 +273,7 @@ router.post(`${apiRoute}/rm/shopping-list/remove`, async (req, res) => {
   const data = prepData(req.body);
 
   try {
-    const sql = await query(`UPDATE shopping_list SET got_by = ? WHERE id IN (?);`, data.values);
+    const sql = await query(`UPDATE shopping_list SET got_by = ?, date_complete = ? WHERE id IN (?);`, data.values);
 
     const response = {
       message: "Shopping List.",

@@ -13,6 +13,10 @@
   <body>
     <main>
       <h1 id="greeting"></h1>
+      <nav>
+        <a href="/rm/">Home</a>
+        <a href="recipes/">Recipes</a>
+      </nav>
       <section aria-labelledby="shopping-list-title">
         <h2 id="shopping-list-title">Shopping List</h2>
         <fieldset id="new-shopping-item-fieldset">
@@ -37,6 +41,46 @@
         </fieldset>
         <ul id="shopping-list"></ul>
       </section>
+
+      <section aria-labelledby="chores-list-title">
+        <h2 id="chores-list-title">Chores</h2>
+        <form id="new-chore-form">
+          <fieldset>
+            <legend>New Chore</legend>
+            <label for="new-chore-title">Chore Name</label>
+            <input id="new-chore-title" type="text" required />
+            <label for="new-chore-repeats-hours">Repeats</label>
+            <select id="new-chore-repeats-hours">
+              <option value="0">Does Not Repeat</option>
+              <option value="12">Twice a day</option>
+              <option value="24">Once a day</option>
+              <option value="48">Every Other Day</option>
+              <option value="168">Once a week</option>
+              <option value="336">Every other week</option>
+              <option value="720">Once a month</option>
+            </select>
+            <label for="new-chore-day-of-week" class="display-none">On day of week</label>
+            <select id="new-chore-day-of-week" class="display-none">
+              <option value="-1">Select day of week...</option>
+              <option value="0">Sunday</option>
+              <option value="1">Monday</option>
+              <option value="2">Tuesday</option>
+              <option value="3">Wednesday</option>
+              <option value="4">Thursday</option>
+              <option value="5">Friday</option>
+              <option value="6">Saturday</option>
+            </select>
+            <label for="new-chore-due-date">Due Date</label>
+            <input id="new-chore-due-date" type="date" />
+            <label for="new-chore-points">Points <small>(Maximum 1,000)</small></label>
+            <input id="new-chore-points" type="number" value="10" min="1" max="1000" required />
+            <label for="new-chore-notes">Notes <small>(Optional)</small></label>
+            <textarea id="new-chore-notes"></textarea>
+            <button id="add-chore-button">Add Chore</button>
+          </fieldset>
+        </form>
+      </section>
+
       <div id="shopping-list-options" class="display-none">
         <button id="mark-selected-as-done-button">Mark selected as done</button>
       </div>

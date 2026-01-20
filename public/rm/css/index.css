@@ -9,11 +9,12 @@ html[data-rm-user="Risa"] {
   }
 }
 
-#new-shopping-item-fieldset {
-  input:where([type="text"], [type="number"]),
-  textarea {
+fieldset {
+  input:where([type="text"], [type="number"], [type="date"]),
+  textarea,
+  select {
     inline-size: 100%;
-    padding: 0.5rem;
+    padding: var(--input-padding);
     margin-block-end: 1rem;
   }
 

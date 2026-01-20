@@ -36,6 +36,7 @@ const handleShoppingItemCheckboxChange = () => {
 const removeItemsFromShoppingList = async (completeItemIds) => {
   const data = {
     got_by: getUser(),
+    date_complete: rightNowDatabaseFormat(),
     completeItemIds,
   };
 
@@ -78,7 +79,7 @@ const buildShoppingList = (data) => {
 
     const addedByElement = dom();
     addedByElement.classList.add("added-by");
-    addedByElement.textContent = `Added by ${li.added_by} ${formatDate(li.date_added)}`;
+    addedByElement.textContent = `Added by ${li.added_by} ${humanReadableDate(li.date_added)}`;
     liInfo.appendChild(addedByElement);
 
     const notesElement = dom("p");
@@ -114,9 +115,18 @@ const buildShoppingList = (data) => {
   });
 };
 
+const buildChoreList = (data) => {
+  const repeatThisDayOfWeek = data.filter((chore) => chore.repeats_day_of_week === getDayOfWeek());
+  console.log(repeatThisDayOfWeek);
+  console.log(data);
+};
+
 const gatherData = async () => {
   const shoppingList = await getShoppingList();
   buildShoppingList(shoppingList);
+
+  const chores = await getChores();
+  buildChoreList(chores);
 };
 
 const addItemToShoppingList = async () => {
@@ -125,6 +135,7 @@ const addItemToShoppingList = async () => {
     quantity: $("#new-item-quantity").value,
     notes: $("#new-item-notes").value,
     priority: $(`[name="new-item-priority"]:checked`).value,
+    date_added: rightNowDatabaseFormat(),
     added_by: getUser(),
   };
 
@@ -136,7 +147,97 @@ const addItemToShoppingList = async () => {
   }
 };
 
+const getChores = async () => {
+  try {
+    const request = await apiHelper(`/api/rm/chores`);
+    return request.data;
+  } catch (error) {
+    displayError(error);
+  }
+};
+
+const calculateChoreDueDate = () => {
+  const repeatsEveryHours = Number($("#new-chore-repeats-hours").value);
+  const repeatsEveryWeekday = Number($("#new-chore-day-of-week").value);
+  const isOneTimeChore = $("#new-chore-day-of-week").value === "-1";
+
+  if (isOneTimeChore) {
+    return $("#new-chore-due-date").value;
+  }
+
+  if (repeatsEveryHours > -1) {
+    // Is a chore that repeats on an hourly basis.
+    return addHoursToCurrentTime(repeatsEveryHours);
+  } else {
+    // Is a chore that repeats on a specific day of week.
+    return getNextDayOfWeek(repeatsEveryWeekday);
+  }
+};
+
+const addNewChore = async (event) => {
+  event.preventDefault();
+
+  const chore = {
+    chore_name: $("#new-chore-title").value,
+    repeats_every_hours: $("#new-chore-day-of-week").value === "-1" ? $("#new-chore-repeats-hours").value : null,
+    repeats_day_of_week: $("#new-chore-day-of-week").value === "-1" ? null : $("#new-chore-day-of-week").value,
+    date_due: calculateChoreDueDate(),
+    notes: $("#new-chore-notes").value,
+    points: $("#new-chore-points").value,
+    date_added: rightNowDatabaseFormat(),
+    added_by: getUser(),
+  };
+
+  const request = await apiHelper(`/api/rm/chores/add`, "POST", chore);
+
+  if (request.status === 200) {
+    // change to wipe div and refetch.
+    // window.location.reload();
+  }
+};
+
+const handleChoreRepeatChange = (event) => {
+  const target = event.currentTarget;
+
+  switch (Number(target.value)) {
+    // Does not repeat
+    case 0: {
+      $(`[for="new-chore-due-date"]`).classList.remove("display-none");
+      $("#new-chore-due-date").classList.remove("display-none");
+      // Reset day of week.
+      $("#new-chore-day-of-week").value = "-1";
+      $(`[for="new-chore-day-of-week"`).classList.add("display-none");
+      $("#new-chore-day-of-week").classList.add("display-none");
+      break;
+    }
+
+    // Once a week
+    case 168: {
+      $(`[for="new-chore-day-of-week"`).classList.remove("display-none");
+      $("#new-chore-day-of-week").classList.remove("display-none");
+      $(`[for="new-chore-due-date"]`).classList.add("display-none");
+      $("#new-chore-due-date").classList.add("display-none");
+      break;
+    }
+
+    default: {
+      $(`[for="new-chore-due-date"]`).classList.add("display-none");
+      $("#new-chore-due-date").classList.add("display-none");
+      // Reset day of week.
+      $("#new-chore-day-of-week").value = "-1";
+      $(`[for="new-chore-day-of-week"`).classList.add("display-none");
+      $("#new-chore-day-of-week").classList.add("display-none");
+      break;
+    }
+  }
+};
+
+const twoDaysInMS = 60 * 60 * 48 * 1000;
+$("#new-chore-due-date").value = formatDateForInput(Date.now() + twoDaysInMS);
+
+$("#new-chore-repeats-hours").addEventListener("input", handleChoreRepeatChange);
 $("#add-item-button").addEventListener("click", addItemToShoppingList);
+$("#new-chore-form").addEventListener("submit", addNewChore);
 $("#mark-selected-as-done-button").addEventListener("click", handleMarkSelectedAsDoneClick);
 
 updateGreeting();
