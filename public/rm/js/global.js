@@ -45,21 +45,22 @@ const apiHelper = async (path, method = "POST", data = { jwt: "" }) => {
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
-const dom = (element) => document.createElement(element || "div");
-const makeDom = (tag, attributes) => {
-  const newElement = document.createElement(tag);
+const dom = (params) => {
+  const element = document.createElement(params.tag || "div");
 
-  Object.entries(attributes).forEach((att) => {
-    const attKey = att[0];
-    const attValue = att[1];
+  if (params.attributes) {
+    Object.entries(params.attributes).forEach((att) => {
+      const [attribute, value] = att;
+      element.setAttribute(attribute, value);
+    });
+  }
 
-    newElement.setAttribute(attKey, attValue);
-  });
+  if (params.text) {
+    element.textContent = params.text;
+  }
 
-  return newElement;
+  return element;
 };
-
-console.log(element("div", { "aria-label": "fuck", "data-foo": "bar" }));
 
 const humanReadableDate = (timestamp) => {
   const date = new Date(timestamp);

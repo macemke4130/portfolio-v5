@@ -62,63 +62,130 @@ const buildShoppingList = (data) => {
   const shoppingListElement = $("#shopping-list");
 
   data.forEach((li) => {
-    const liElement = dom("li");
-    liElement.setAttribute("data-item-id", li.id);
-    if (li.priority > 0) liElement.classList.add("high-priority");
+    const liElement = dom({
+      tag: "li",
+      attributes: {
+        class: li.priority > 0 ? "high-priority" : "",
+        "data-item-id": li.id,
+      },
+    });
 
-    const liInfo = dom("div");
-    liInfo.classList.add("info");
+    const liInfo = dom({ attributes: { class: "info" } });
 
-    const liControls = dom("div");
-    liControls.classList.add("controls");
+    const liControls = dom({ attributes: { class: "controls" } });
 
-    const itemNameElement = dom();
-    itemNameElement.classList.add("item-name");
-    itemNameElement.textContent = li.item_name;
+    const itemNameElement = dom({
+      attributes: {
+        class: "item-name",
+      },
+      text: li.item_name,
+    });
     liInfo.appendChild(itemNameElement);
 
-    const addedByElement = dom();
-    addedByElement.classList.add("added-by");
-    addedByElement.textContent = `Added by ${li.added_by} ${humanReadableDate(li.date_added)}`;
+    const addedByElement = dom({
+      attributes: {
+        class: "added-by",
+      },
+      text: `Added by ${li.added_by} ${humanReadableDate(li.date_added)}`,
+    });
     liInfo.appendChild(addedByElement);
 
-    const notesElement = dom("p");
-    notesElement.classList.add("notes");
-    notesElement.textContent = li.notes;
+    const notesElement = dom({
+      tag: "p",
+      attributes: {
+        class: "notes",
+      },
+      text: li.notes,
+    });
     liInfo.appendChild(notesElement);
 
-    const checkboxLabel = dom("label");
+    const checkboxLabel = dom({ tag: "label" });
 
-    const checkboxElement = dom("input");
-    checkboxElement.classList.add("got");
-    checkboxElement.setAttribute("type", "checkbox");
+    const checkboxElement = dom({
+      tag: "input",
+      attributes: {
+        class: "got",
+        type: "checkbox",
+      },
+    });
+
     checkboxLabel.appendChild(checkboxElement);
     checkboxElement.addEventListener("input", handleShoppingItemCheckboxChange);
     liControls.appendChild(checkboxLabel);
 
-    const editButton = dom("button");
-    editButton.classList.add("edit");
+    const editButton = dom({ tag: "button", attributes: { class: "edit" } });
     editButton.addEventListener("click", handleShoppingListEditButtonClick);
 
-    const editButtonImage = dom("img");
-    editButtonImage.setAttribute("src", "./images/edit-pencil.svg");
-    editButtonImage.setAttribute("width", "20");
-    editButtonImage.setAttribute("height", "20");
+    const editButtonImage = dom({
+      tag: "img",
+      attributes: {
+        src: "./images/edit-pencil.svg",
+        width: "20",
+        height: "20",
+      },
+    });
     editButton.appendChild(editButtonImage);
 
     liControls.appendChild(editButton);
-
     liElement.appendChild(liInfo);
     liElement.appendChild(liControls);
-
     shoppingListElement.appendChild(liElement);
   });
 };
 
+const handleFinishChoreButton = (event) => {
+  const target = event.target;
+};
+
 const buildChoreList = (data) => {
-  const repeatThisDayOfWeek = data.filter((chore) => chore.repeats_day_of_week === getDayOfWeek());
-  console.log(repeatThisDayOfWeek);
-  console.log(data);
+  data.forEach((chore) => {
+    const liElement = dom({
+      tag: "li",
+      attributes: {
+        class: "chore-item",
+        "data-chore-id": chore.id,
+      },
+    });
+
+    const liInfo = dom({ attributes: { class: "info" } });
+
+    const itemName = dom({
+      attributes: {
+        class: "item-name",
+      },
+      text: chore.chore_name,
+    });
+    liInfo.appendChild(itemName);
+
+    const dueBy = dom({ attributes: { class: "due-by" }, text: humanReadableDate(chore.date_due) });
+    liInfo.appendChild(dueBy);
+
+    const points = dom({ attributes: { class: "points" }, text: `${chore.points} points` });
+    liInfo.appendChild(points);
+
+    if (chore.notes) {
+      const notes = dom({ tag: "p", attributes: { class: "notes" }, text: chore.notes });
+      liInfo.appendChild(notes);
+    }
+
+    const controls = dom({ attributes: { class: "controls" } });
+
+    const doneButton = dom({
+      tag: "button",
+      attributes: {
+        class: "complete",
+        type: "button",
+      },
+      text: "Finished",
+    });
+    doneButton.addEventListener("click", handleFinishChoreButton);
+    controls.appendChild(doneButton);
+
+    liElement.appendChild(liInfo);
+    liElement.appendChild(controls);
+
+    $("#todays-chores-list").appendChild(liElement);
+  });
 };
 
 const gatherData = async () => {
@@ -159,7 +226,7 @@ const getChores = async () => {
 const calculateChoreDueDate = () => {
   const repeatsEveryHours = Number($("#new-chore-repeats-hours").value);
   const repeatsEveryWeekday = Number($("#new-chore-day-of-week").value);
-  const isOneTimeChore = $("#new-chore-day-of-week").value !== "-1";
+  const isOneTimeChore = $("#new-chore-repeats-hours").value === "0";
 
   if (isOneTimeChore) {
     return $("#new-chore-due-date").value;
@@ -191,8 +258,10 @@ const addNewChore = async (event) => {
   const request = await apiHelper(`/api/rm/chores/add`, "POST", chore);
 
   if (request.status === 200) {
-    // change to wipe div and refetch.
-    // window.location.reload();
+    $("#todays-chores-list").innerHTML = "";
+
+    const chores = await getChores();
+    buildChoreList(chores);
   }
 };
 
