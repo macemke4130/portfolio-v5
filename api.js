@@ -112,8 +112,6 @@ router.post(`${apiRoute}/rm/chores/day/:dayofweek`, async (req, res) => {
     return;
   }
 
-  console.log("Day of week: " + req.params.dayofweek);
-
   const dayOfWeek = Number(req.params.dayofweek);
 
   try {
@@ -153,6 +151,75 @@ router.post(`${apiRoute}/rm/chores/add`, async (req, res) => {
 
     const response = {
       message: "Chore Added.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/rm/chores/:id/done-repeat`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const choreId = Number(req.params.id);
+  const doneBy = req.body.done_by;
+  const dateComplete = req.body.date_complete;
+  const newChoreDueDate = req.body.new_chore_due_date;
+
+  try {
+    const sql = await query(`UPDATE chores SET done_by = ?, date_complete = ? WHERE id = ?`, [doneBy, dateComplete, choreId]);
+
+    const response = {
+      message: "Chore updated.",
+      status: 200,
+      data: sql,
+    };
+
+    res.json(response);
+  } catch (e) {
+    const response = {
+      message: e.sqlMessage,
+      status: e.errno,
+      data: null,
+    };
+
+    res.json(response);
+    console.log(e);
+  }
+});
+
+router.post(`${apiRoute}/rm/chores/:id/done`, async (req, res) => {
+  const isValidJWT = await authorize(req.body.jwt);
+
+  if (!isValidJWT) {
+    res.json(unauthorizedResponse);
+    return;
+  }
+
+  const choreId = Number(req.params.id);
+  const doneBy = req.body.done_by;
+  const dateComplete = req.body.date_complete;
+
+  try {
+    const sql = await query(`UPDATE chores SET done_by = ?, date_complete = ? WHERE id = ?`, [doneBy, dateComplete, choreId]);
+
+    const response = {
+      message: "Chore updated.",
       status: 200,
       data: sql,
     };

@@ -133,8 +133,41 @@ const buildShoppingList = (data) => {
   });
 };
 
-const handleFinishChoreButton = (event) => {
+const handleFinishChoreButton = async (event) => {
   const target = event.target;
+  const containerLi = target.closest("li");
+
+  let requestStatus = 0;
+
+  // Do I need to have two different api endpoints? Shouldn't I just create a new chore if it's repeating? Didn't I already write this? I could just call the addNewChore() function with some updated data.
+
+  if (containerLi.dataset.repeatsEveryHours === "0") {
+    // One time chore. Mark as done.
+    const data = {
+      done_by: getUser(),
+      date_complete: rightNowDatabaseFormat(),
+    };
+
+    const request = await apiHelper(`/api/rm/chores/${containerLi.dataset.choreId}/done`, "POST", data);
+    requestStatus = request.status;
+  } else {
+    // Repeating Chore. Mark as done and create new.
+    const data = {
+      done_by: getUser(),
+      date_complete: rightNowDatabaseFormat(),
+      next_due_date: "",
+    };
+
+    const request = await apiHelper(`/api/rm/chores/${containerLi.dataset.choreId}/done-repeat`, "POST", data);
+    requestStatus = request.status;
+  }
+
+  if (request.status === 200) {
+    $("#todays-chores-list").innerHTML = "";
+
+    const chores = await getChores();
+    buildChoreList(chores);
+  }
 };
 
 const buildChoreList = (data) => {
@@ -144,6 +177,7 @@ const buildChoreList = (data) => {
       attributes: {
         class: "chore-item",
         "data-chore-id": chore.id,
+        "data-repeats-every-hours": chore.repeats_every_hours,
       },
     });
 
