@@ -207,7 +207,12 @@ const buildChoreList = (data) => {
     });
     liInfo.appendChild(itemName);
 
-    const dueBy = dom({ attributes: { class: "due-by" }, text: humanReadableDate(chore.date_due) });
+    const dueBy = dom({
+      attributes: {
+        class: "due-by",
+      },
+      text: `Due ${Number(chore.repeats_every_hours) > 0 ? "by" : "on"} ${humanReadableDate(chore.date_due)}`,
+    });
     liInfo.appendChild(dueBy);
 
     const points = dom({ attributes: { class: "points" }, text: `${chore.points} points` });
