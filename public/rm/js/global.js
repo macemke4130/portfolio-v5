@@ -63,12 +63,14 @@ const dom = (params) => {
 };
 
 const humanReadableDate = (timestamp) => {
-  const date = new Date(timestamp);
+  const localMidnight = timestamp.replace(/T00:00:00\.000Z$/, "T06:00:00.000Z");
+  const date = new Date(localMidnight);
 
   return new Intl.DateTimeFormat("en-US", {
     month: "numeric",
     day: "numeric",
     year: "numeric",
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   }).format(date);
 };
 
