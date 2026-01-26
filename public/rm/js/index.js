@@ -211,7 +211,7 @@ const buildChoreList = (data) => {
       attributes: {
         class: "due-by",
       },
-      text: `Due ${Number(chore.repeats_every_hours) > 0 ? "by" : "on"} ${humanReadableDate(chore.date_due)}`,
+      text: `Due ${Number(chore.repeats_every_hours) > 0 ? "on" : "by"} ${humanReadableDate(chore.date_due)}`,
     });
     liInfo.appendChild(dueBy);
 
