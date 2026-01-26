@@ -173,3 +173,8 @@ const getNextDayOfWeek = (targetDay) => {
 
   return `${year}-${month}-${day}`;
 };
+
+const nullOrValue = (x) => {
+  if (x === "null") return null;
+  return x;
+};

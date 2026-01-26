@@ -133,41 +133,53 @@ const buildShoppingList = (data) => {
   });
 };
 
+const reinstantiateChore = async (data) => {
+  const choreDueDateData = {
+    repeatsEveryHours: data.repeatsEveryHours,
+    repeatsDayOfWeek: data.repeatsDayOfWeek,
+    isOneTimeChore: false,
+  };
+
+  const newChoreData = {
+    chore_name: document.querySelector(`[data-chore-id="${data.choreId}"] .item-name`).textContent,
+    repeats_every_hours: nullOrValue(choreDueDateData.repeatsEveryHours),
+    repeats_day_of_week: nullOrValue(choreDueDateData.repeatsDayOfWeek),
+    date_due: calculateChoreDueDate(choreDueDateData),
+    notes: data.notes,
+    points: data.points,
+    date_added: rightNowDatabaseFormat(),
+    added_by: getUser(),
+  };
+
+  addNewChore(newChoreData);
+};
+
+const finishChore = async (data) => {
+  const choreData = {
+    done_by: getUser(),
+    date_complete: rightNowDatabaseFormat(),
+  };
+
+  const request = await apiHelper(`/api/rm/chores/${data.choreId}/done`, "POST", choreData);
+
+  if (request.status !== 200) {
+    console.error(request);
+    return;
+  }
+
+  if (data.repeatsEveryHours !== "0") {
+    // Is repeating chore. Create new instance.
+
+    reinstantiateChore(data);
+  }
+};
+
 const handleFinishChoreButton = async (event) => {
   const target = event.target;
   const containerLi = target.closest("li");
+  const data = containerLi.dataset;
 
-  let requestStatus = 0;
-
-  // Do I need to have two different api endpoints? Shouldn't I just create a new chore if it's repeating? Didn't I already write this? I could just call the addNewChore() function with some updated data.
-
-  if (containerLi.dataset.repeatsEveryHours === "0") {
-    // One time chore. Mark as done.
-    const data = {
-      done_by: getUser(),
-      date_complete: rightNowDatabaseFormat(),
-    };
-
-    const request = await apiHelper(`/api/rm/chores/${containerLi.dataset.choreId}/done`, "POST", data);
-    requestStatus = request.status;
-  } else {
-    // Repeating Chore. Mark as done and create new.
-    const data = {
-      done_by: getUser(),
-      date_complete: rightNowDatabaseFormat(),
-      next_due_date: "",
-    };
-
-    const request = await apiHelper(`/api/rm/chores/${containerLi.dataset.choreId}/done-repeat`, "POST", data);
-    requestStatus = request.status;
-  }
-
-  if (request.status === 200) {
-    $("#todays-chores-list").innerHTML = "";
-
-    const chores = await getChores();
-    buildChoreList(chores);
-  }
+  finishChore(data);
 };
 
 const buildChoreList = (data) => {
@@ -178,6 +190,10 @@ const buildChoreList = (data) => {
         class: "chore-item",
         "data-chore-id": chore.id,
         "data-repeats-every-hours": chore.repeats_every_hours,
+        "data-repeats-day-of-week": chore.repeats_day_of_week,
+        "data-date-due": chore.date_due,
+        "data-notes": chore.notes,
+        "data-points": chore.points,
       },
     });
 
@@ -257,38 +273,47 @@ const getChores = async () => {
   }
 };
 
-const calculateChoreDueDate = () => {
-  const repeatsEveryHours = Number($("#new-chore-repeats-hours").value);
-  const repeatsEveryWeekday = Number($("#new-chore-day-of-week").value);
-  const isOneTimeChore = $("#new-chore-repeats-hours").value === "0";
+const calculateChoreDueDate = (params) => {
+  const { repeatsEveryHours, isOneTimeChore } = params;
+  const repeatsDayOfWeek = Number(params.repeatsDayOfWeek);
 
   if (isOneTimeChore) {
     return $("#new-chore-due-date").value;
   }
 
-  if (repeatsEveryHours === 168) {
+  if (repeatsDayOfWeek > -1) {
     // Is a chore that repeats on a specific day of week.
-    return getNextDayOfWeek(repeatsEveryWeekday);
+    return getNextDayOfWeek(repeatsDayOfWeek);
   }
 
   // Is a chore that repeats on an hourly basis.
   return addHoursToCurrentTime(repeatsEveryHours);
 };
 
-const addNewChore = async (event) => {
+const handleAddChoreButtonClick = (event) => {
   event.preventDefault();
 
-  const chore = {
+  const choreDueDateData = {
+    repeatsEveryHours: Number($("#new-chore-repeats-hours").value),
+    repeatsDayOfWeek: Number($("#new-chore-day-of-week").value),
+    isOneTimeChore: $("#new-chore-repeats-hours").value === "0",
+  };
+
+  const choreData = {
     chore_name: $("#new-chore-title").value,
     repeats_every_hours: $("#new-chore-day-of-week").value === "-1" ? $("#new-chore-repeats-hours").value : null,
     repeats_day_of_week: $("#new-chore-day-of-week").value === "-1" ? null : $("#new-chore-day-of-week").value,
-    date_due: calculateChoreDueDate(),
+    date_due: calculateChoreDueDate(choreDueDateData),
     notes: $("#new-chore-notes").value,
     points: $("#new-chore-points").value,
     date_added: rightNowDatabaseFormat(),
     added_by: getUser(),
   };
 
+  addNewChore(choreData);
+};
+
+const addNewChore = async (chore) => {
   const request = await apiHelper(`/api/rm/chores/add`, "POST", chore);
 
   if (request.status === 200) {
@@ -340,7 +365,7 @@ $("#new-chore-due-date").value = formatDateForInput(Date.now() + twoDaysInMS);
 
 $("#new-chore-repeats-hours").addEventListener("input", handleChoreRepeatChange);
 $("#add-item-button").addEventListener("click", addItemToShoppingList);
-$("#new-chore-form").addEventListener("submit", addNewChore);
+$("#new-chore-form").addEventListener("submit", handleAddChoreButtonClick);
 $("#mark-selected-as-done-button").addEventListener("click", handleMarkSelectedAsDoneClick);
 
 updateGreeting();
