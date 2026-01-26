@@ -30,3 +30,5 @@ create table chores (
 );
 
 select * from chores;
+
+drop table chores;

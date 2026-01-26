@@ -246,7 +246,7 @@ router.post(`${apiRoute}/rm/chores/`, async (req, res) => {
   }
 
   try {
-    const sql = await query(`SELECT * FROM chores WHERE done_by IS NULL`);
+    const sql = await query(`SELECT * FROM chores WHERE done_by IS NULL ORDER BY date_due`);
 
     const response = {
       message: "All unfinished chores.",
@@ -625,7 +625,7 @@ router.post(`${apiRoute}/folks/:id/hangs/`, async (req, res) => {
 
   try {
     const sql = await query(
-      `SELECT date, details, hangs_id, location FROM folks_at_hangs JOIN hangs ON hangs.id = folks_at_hangs.hangs_id WHERE folks_id = ${id} ORDER BY date DESC;`
+      `SELECT date, details, hangs_id, location FROM folks_at_hangs JOIN hangs ON hangs.id = folks_at_hangs.hangs_id WHERE folks_id = ${id} ORDER BY date DESC;`,
     );
 
     console.log(sql[0]);
@@ -659,7 +659,7 @@ router.post(`${apiRoute}/folks/hangs/`, async (req, res) => {
 
   try {
     const sql = await query(
-      `SELECT hangs.id AS hangs_id, folks.id AS folks_id, date, details, location, name FROM hangs JOIN folks_at_hangs ON hangs.id = folks_at_hangs.hangs_id JOIN folks ON folks_at_hangs.folks_id = folks.id ORDER BY date DESC`
+      `SELECT hangs.id AS hangs_id, folks.id AS folks_id, date, details, location, name FROM hangs JOIN folks_at_hangs ON hangs.id = folks_at_hangs.hangs_id JOIN folks ON folks_at_hangs.folks_id = folks.id ORDER BY date DESC`,
     );
 
     const hangMap = new Map();
@@ -788,7 +788,7 @@ router.post(`${apiRoute}/folks/at-hangs/:id`, async (req, res) => {
 
   try {
     const sql = await query(
-      `SELECT folks.id, folks.name from folks_at_hangs join folks on folks.id = folks_at_hangs.folks_id where folks_at_hangs.hangs_id = ${id};`
+      `SELECT folks.id, folks.name from folks_at_hangs join folks on folks.id = folks_at_hangs.folks_id where folks_at_hangs.hangs_id = ${id};`,
     );
 
     const response = {
