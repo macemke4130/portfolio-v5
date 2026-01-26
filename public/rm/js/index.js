@@ -208,13 +208,13 @@ const buildChoreList = (data) => {
     liInfo.appendChild(itemName);
 
     const dueByText = (() => {
-      const repeatsString = chore.repeats_every_hours;
+      const repeatsEvery = chore.repeats_every_hours;
 
-      if (repeatsString === "0") {
+      if (repeatsEvery === 0) {
         return "by";
       }
 
-      if (repeatsString === "null") {
+      if (repeatsEvery === "null") {
         return "on";
       }
 
