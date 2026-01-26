@@ -207,9 +207,20 @@ const buildChoreList = (data) => {
     });
     liInfo.appendChild(itemName);
 
-    const repeatsNumber = Number(chore.repeats_every_hours);
-    const dueByText = repeatsNumber >= 0 ? "on" : "by";
-    debugger;
+    const dueByText = (() => {
+      const repeatsString = chore.repeats_every_hours;
+
+      if (repeatsString === "0") {
+        return "by";
+      }
+
+      if (repeatsString === "null") {
+        return "on";
+      }
+
+      return "on";
+    })();
+
     const dueBy = dom({
       attributes: {
         class: "due-by",
