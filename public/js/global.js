@@ -8,12 +8,12 @@ const handleHamburgerClick = (event) => {
   target.setAttribute("aria-label", `${navIsOpen ? "Open" : "Close"} navigation`);
   target.setAttribute("aria-expanded", !navIsOpen);
   $("#navigation-drawer").setAttribute("data-expanded", !navIsOpen);
+  $("#navigation-drawer").setAttribute("aria-hidden", navIsOpen);
   $("#navigation-curtain").setAttribute("data-position", navIsOpen ? "up" : "down");
 
-  adjustTabIndexOfDrawerItems(navIsOpen);
+  toggleDrawerItemActiveState(navIsOpen);
 };
 
-// OMG fun. Javascript is wild.
 const handleCloseNavClick = () => {
   const fakeEventObject = {
     target: $("#hamburger"),
@@ -21,9 +21,12 @@ const handleCloseNavClick = () => {
   handleHamburgerClick(fakeEventObject);
 };
 
-const adjustTabIndexOfDrawerItems = (navIsOpen) => {
+const toggleDrawerItemActiveState = (navIsOpen) => {
   const allFocusableElements = $("#navigation-drawer").querySelectorAll(`a, button`);
-  for (const element of allFocusableElements) element.setAttribute("tabindex", navIsOpen ? -1 : 0);
+  for (const element of allFocusableElements) {
+    element.setAttribute("aria-hidden", navIsOpen ? "true" : "false");
+    element.setAttribute("tabindex", navIsOpen ? -1 : 0);
+  }
 };
 
 const importComponents = async () => {
