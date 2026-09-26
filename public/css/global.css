@@ -332,6 +332,10 @@ h1:only-child {
   margin-bottom: 0;
 }
 
+.skill-list-title {
+  margin-block-start: 4rem;
+}
+
 .skills-container {
   display: flex;
   flex-wrap: wrap;
