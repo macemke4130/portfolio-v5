@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>R+M</title>
+    <link href="../css/global.css" rel="stylesheet" />
+    <link href="../css/index.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap" rel="stylesheet" />
+    <style>
+      #job-list {
+        padding-inline-start: 1rem;
+        li {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-block-end: 2rem;
+
+          input[type="checkbox"] {
+            scale: 1.5;
+          }
+
+          a {
+            text-decoration: none;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="../">Home</a>
+      <a href="../recipes/">Recipes</a>
+    </nav>
+    <main>
+      <h1>List of job sites</h1>
+      <ul id="job-list">
+        <li><input type="checkbox" /> <a target="_blank" href="https://mn.gov/mmb/careers/">State of Minnesota (Including MnDOT)</a></li>
+        <li><input type="checkbox" /> <a target="_blank" href="https://www.governmentjobs.com/careers/hennepin">Hennepin County</a></li>
+        <li>
+          <input type="checkbox" />
+
+          <a target="_blank" href="https://www.governmentjobs.com/careers/metrocouncil?department[0]=Metro%20Transit&sort=PostingDate%7CDescending"
+            >Met Council (including Metro Transit)</a
+          >
+        </li>
+        <li>
+          <input type="checkbox" />
+
+          <a
+            target="_blank"
+            href="https://hr.myu.umn.edu/psc/hrprd/EMPLOYEE/HRMS/c/HRS_HRAM_FL.HRS_CG_SEARCH_FL.GBL?Page=HRS_APP_SCHJOB_FL&ACTION=U&FOCUS=Applicant&SiteId=1&"
+            >U of M</a
+          >
+        </li>
+        <li><input type="checkbox" /> <a target="_blank" href="https://www.governmentjobs.com/careers/minneapolismn?page=2">City of Minneapolis</a></li>
+        <li><input type="checkbox" /> <a target="_blank" href="https://www.governmentjobs.com/careers/mnparks">MPRB</a></li>
+      </ul>
+      <button id="open-selected">Open Selected</button>
+    </main>
+
+    <script src="../js/jobs.js"></script>
+    <script src="../js/global.js"></script>
+  </body>
+</html>
